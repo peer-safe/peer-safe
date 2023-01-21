@@ -1,0 +1,6 @@
+.logo {
+    background-image: url("./logo.png") !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
