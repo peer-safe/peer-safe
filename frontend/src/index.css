@@ -1,0 +1,16 @@
+@import url('https://fonts.cdnfonts.com/css/clash-display');
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+body {
+    background-image: linear-gradient(180deg, rgb(1, 0, 7), 
+    rgb(6, 3, 30), rgb(30,12,90),
+    rgb(32, 13, 94), rgb(52, 16, 114),rgb(78, 26, 143), 
+    rgb(95, 33, 157), rgb(101,35,163) 140%) ;
+
+    background-image: linear-gradient(180deg, rgb(1, 0, 7), 
+    rgb(6, 3, 30), rgb(30,12,90),
+    rgb(32, 13, 94), rgb(52, 16, 114),rgb(78, 26, 143), 
+    rgb(95, 33, 157)130%, rgb(101,35,163) 150%) !important;
+
+}
+

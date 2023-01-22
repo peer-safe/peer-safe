@@ -56,6 +56,9 @@ const App = () => {
                 color='blackAlpha.700'
                 fontWeight='bold'
                 textColor={textC}
+            marginLeft='10'
+            marginRight='10'
+            marginTop='5'
           >
               <GridItem pl='2' bg={"transparent"} area={'header'}>
                 <Navbar />

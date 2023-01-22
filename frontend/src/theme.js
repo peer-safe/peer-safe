@@ -6,8 +6,8 @@ import { extendTheme, useColorMode } from '@chakra-ui/react';
 
 // 2. Add your color mode config
 const config = {
-    initialColorMode: 'white',
-    useSystemColorMode: true,
+    initialColorMode: 'dark',
+    useSystemColorMode: false,
 }
 
 // 3. extend the theme
@@ -17,7 +17,7 @@ const theme = extendTheme(
 
 const useTextC = () => { 
     const { colorMode } = useColorMode();
-    return colorMode === 'light' ? 'gray.800' : 'facebook.100';
+    return colorMode === 'facebook.50';
 }
 
 export {
