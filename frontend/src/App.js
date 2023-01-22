@@ -1,10 +1,10 @@
-import logo from './logo.png';
+// import logo from './logo.png';
 import './App.css';
 import { configureChains, createClient, useAccount, WagmiConfig } from 'wagmi';
 import { polygonMumbai } from 'wagmi/chains';
-import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi';
-//import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
+// import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
+// import { publicProvider } from 'wagmi/providers/public';
 import {
   darkTheme,
   getDefaultWallets,
@@ -12,15 +12,19 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { useTextC } from './theme.js';
-import { Box, Button, Center, Flex, Grid, GridItem, Spacer, useToast, Text, Link, useColorMode } from '@chakra-ui/react';
+import { Grid, GridItem, useColorMode } from '@chakra-ui/react';
 import { Navbar } from './Navbar.js';
 import LandingPage from './LandingPage';
-
+import React, { useContext } from 'react';
+import Footer from './Footer';
+import { VaultContext, VaultContextProvider } from './VaultContextProvider';
+import { FileUploadComponent } from './FileUpload';
+import { RsaContext, RsaContextProvider } from './RsaContextProvider';
 const { chains, provider } = configureChains(
   [polygonMumbai],
   [
-//    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
-    publicProvider()
+   alchemyProvider({ apiKey: 'Z-aaGEoMZCId3t9RDqRsfAH8BlHFL9DE' }),
+    // publicProvider()
   ]
 );
 
@@ -35,15 +39,24 @@ const wagmiClient = createClient({
   provider
 })
 
+const MainHandler = () => { 
+  const state = useContext(VaultContext);
+  return (
+    (state.vaultAddy != "") ? <FileUploadComponent /> : <LandingPage />
+  )
+}
 
 const App = () => {
-  const { address, isConnected } = useAccount();
+  // const { address, isConnected } = useAccount();
   const { colorMode } = useColorMode();
   const textC = useTextC();
-
+  // const state = useContext(VaultContext);
+  // const rsaState = useContext(RsaContext);
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains} theme={colorMode === 'light' ? lightTheme() : darkTheme()}>
+        <VaultContextProvider>
+          <RsaContextProvider>
         <div className="App">
           <Grid
                 templateAreas={`"header"
@@ -56,21 +69,27 @@ const App = () => {
                 color='blackAlpha.700'
                 fontWeight='bold'
                 textColor={textC}
-            marginLeft='10'
-            marginRight='10'
-            marginTop='5'
-          >
+                marginLeft='10'
+                marginRight='10'
+                marginTop='5'
+                marginBottom='-50'
+              >
               <GridItem pl='2' bg={"transparent"} area={'header'}>
                 <Navbar />
               </GridItem>
               <GridItem pl='2' area={'main'} alignContent='center' alignItems='center'>
-                <LandingPage />
+                <MainHandler />
+              </GridItem>
+              <GridItem pl='2' area={'footer'} alignContent='center' alignItems={'center'}>
               </GridItem>
           </Grid>
-        </div>
+                <Footer />
+            </div>
+            </RsaContextProvider>
+          </VaultContextProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );
 }
 
-export default App;
+export { App, VaultContext };

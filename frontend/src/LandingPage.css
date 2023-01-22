@@ -15,10 +15,17 @@
   }
   
 .glass-button:hover {
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .glass-button {
     margin: 15px;
-    margin-top: 40px;
+    margin-top: 20px;
+}
+.typewriter
+{
+    text-align: center;
+    font-family: "Poppins";
+    margin-top: 10px;
+    height: 50px;
 }
