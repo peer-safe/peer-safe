@@ -1,6 +1,6 @@
 // import logo from './logo.png';
 import './App.css';
-import { configureChains, createClient, useAccount, WagmiConfig } from 'wagmi';
+import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { polygonMumbai } from 'wagmi/chains';
 // import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
@@ -19,7 +19,7 @@ import React, { useContext } from 'react';
 import Footer from './Footer';
 import { VaultContext, VaultContextProvider } from './VaultContextProvider';
 import { FileUploadComponent } from './FileUpload';
-import { RsaContext, RsaContextProvider } from './RsaContextProvider';
+import {  RsaContextProvider } from './RsaContextProvider';
 const { chains, provider } = configureChains(
   [polygonMumbai],
   [
@@ -42,7 +42,7 @@ const wagmiClient = createClient({
 const MainHandler = () => { 
   const state = useContext(VaultContext);
   return (
-    (state.vaultAddy != "") ? <FileUploadComponent /> : <LandingPage />
+    (state.vaultAddy !== "") ? <FileUploadComponent /> : <LandingPage />
   )
 }
 

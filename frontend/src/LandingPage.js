@@ -1,5 +1,5 @@
-import { Box, ButtonGroup, Flex, Heading, Spacer, Text, useColorMode, IconButton, Img, Center } from "@chakra-ui/react";
-import { useTextC } from "./theme";
+import { Flex, Heading, Center } from "@chakra-ui/react";
+// import { useTextC } from "./theme";
 import './LandingPage.css';
 import { useAccount } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -7,7 +7,7 @@ import { usePrepareContractWrite, useContractWrite, useWaitForTransaction, useCo
 import Typewriter from "typewriter-effect";
 import { useContext, useEffect } from "react";
 import { VaultContext } from "./VaultContextProvider";
-import { RsaContext } from "./RsaContextProvider";
+// import { RsaContext } from "./RsaContextProvider";
 const abi = [
     {
         "inputs": [

@@ -285,6 +285,7 @@ const FileUploadComponent = () => {
     const { isLoading, isSuccess } = useWaitForTransaction({
         hash: createFileData?.hash,
     });
+    console.log(createFileisPrepareError, createFilePrepareError, createFileError, createFileErrorIsError);
     const { config: getAllFilesConfig, error: getAllFilesPrepareError,
         isError: getAllFilesisPrepareError } = usePrepareContractWrite({
             address: state?.vaultAddy,
@@ -307,7 +308,7 @@ const FileUploadComponent = () => {
     console.log("ARGSTATE", argState);
     // createFileContract?.();
     const confirmFileUpload = () => {
-        if (argState?.length > 0 && argState != ['', '', '', '']) {
+        if (argState?.length > 0 && argState !== ['', '', '', '']) {
             // ok biatches we're ready to go
             console.log("READY TO GO", createFileConfig);
             
@@ -348,7 +349,7 @@ const FileUploadComponent = () => {
         console.log(rsaContext.rsaKey.toString('UTF-8'));
         // upload file to ipfs
         const testIV = iv.toString();
-        const testKey = encryptedKey.toString();
+        // const testKey = encryptedKey.toString();
         const testFile = util.hexToBytes(encrypted64File);
         const testDecryptedKey = pk.decrypt(encryptedKey).toString();
         const decipher = cipher.createDecipher('AES-CBC', util.createBuffer(key));
