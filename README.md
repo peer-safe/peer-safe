@@ -1,6 +1,4 @@
-<div align="center">
-  ![Logo](https://i.imgur.com/CbQsj8I.png)
-  </div>
+![Logo](https://i.imgur.com/CbQsj8I.png)
 
 
 
