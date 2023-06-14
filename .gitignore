@@ -1,0 +1,6 @@
+.env
+build/
+node_modules/
+.vscode/
+!contracts/build
+.DS_Store
