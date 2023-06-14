@@ -2,7 +2,7 @@ import { useState } from "react";
 import BaseButton from "../BaseButton";
 
 const buttonStyle =
-  "py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-full text-sm";
+  "py-2 px-4 bg-green-700 hover:bg-green-800 transition-all ease-in-out rounded-full text-sm";
 
 const FileTile = ({
   filename,
@@ -22,7 +22,7 @@ const FileTile = ({
   );
 
   return (
-    <div className="relative flex h-[8.5rem] w-56 backdrop-blur-sm before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:rounded-md before:bg-glass before:opacity-10 before:content-['']">
+    <div className="relative flex h-[8.5rem] w-56 bg-white bg-opacity-10 rounded-md">
       {downloadingFile || deletingFile ? (
         <span className="z-10 flex flex-1 cursor-wait items-center justify-center self-stretch text-zinc-300">
           {downloadingFile ? "downloading..." : "deleting..."}

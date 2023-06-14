@@ -126,10 +126,10 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
         />
         <label
           htmlFor="file"
-          className={`select-none rounded-full px-3 py-2 ${
+          className={`select-none rounded-full px-3 py-2 transition-all ease-in-out ${
             uploadingFile
               ? "cursor-not-allowed bg-zinc-600"
-              : "cursor-pointer bg-blue-500 hover:bg-blue-600"
+              : "cursor-pointer bg-green-700 hover:bg-green-800"
           }`}
         >
           {uploadingFile
@@ -155,11 +155,11 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
 
   return (
     <>
-      {/* Background, whole screen */}
-      <div className="fixed -left-20 -right-20 -top-20 -z-10 h-[calc(100vh+160px)] bg-home bg-cover max-md:bg-homeMobile" />
+      {/* Background, whole screen
+      <div className="fixed -left-20 -right-20 -top-20 -z-10 h-[calc(100vh+160px)] bg-cover" /> */}
       <div className="flex w-full justify-center">
         {/* Content with max width */}
-        <div className="flex max-w-5xl flex-1 flex-col p-6">
+        <div className="flex max-w-5xl flex-1 flex-col gap-12 p-6">
           <Navbar web3Auth={web3Auth} />
 
           <div className="flex flex-1 flex-col p-2">

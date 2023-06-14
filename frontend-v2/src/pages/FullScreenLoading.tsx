@@ -1,8 +1,8 @@
 const FullScreenLoading = () => {
   return (
-    <div className="fixed -left-20 -right-20 -top-20 -z-10 flex h-[calc(100vh+160px)] items-center justify-center bg-gray-900 bg-cover">
+    <div className="fixed -left-20 -right-20 -top-20 -z-10 flex h-[calc(100vh+160px)] items-center justify-center bg-[#0e0e0e] bg-cover">
       <img
-        src={require("../assets/logo.svg").default}
+        src={require("../assets/logo-green.svg").default}
         className="animate-pulse"
         height={56}
         width={56}

@@ -1,45 +1,49 @@
 import { Web3Auth } from "@web3auth/modal";
 import { ButtonLogin } from "../components/ButtonsAuth";
 import { Link, useNavigate } from "@tanstack/react-location";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { UserContext } from "../utils/globalContext";
 import BaseButton from "../components/BaseButton";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
-const heroButtonStyle =
-  "py-2 px-4 bg-zinc-800 hover:bg-zinc-700 rounded-full flex items-center gap-2 disabled:bg-zinc-900";
+const homeButtonStyle =
+  "px-4 py-2 gap-2 transition-all justify-center ease-in-out bg-zinc-800 hover:bg-zinc-700 disabled:bg-zinc-800 rounded-full flex items-center disabled:cursor-wait";
 const Home = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   const navigate = useNavigate();
   const { userContext } = useContext(UserContext)!;
+  const howItWorksRef = useRef<HTMLDivElement>(null);
   return (
     <>
-      {/* Background, whole screen */}
-      <div className="fixed -left-20 -right-20 -top-20 -z-10 h-[calc(100vh+160px)] bg-home bg-cover max-md:bg-homeMobile" />
+      {/* Background, whole screen
+      <div className="fixed -left-20 -right-20 -top-20 -z-10 h-[calc(100vh+160px)] bg-cover" /> */}
       <div className="flex w-full justify-center">
         {/* Content with max width */}
-        <div className="flex max-w-5xl flex-1 flex-col p-6">
+        <div className="flex max-w-5xl flex-1 flex-col gap-40 p-6">
           <Navbar web3Auth={web3Auth} />
           {/* Hero */}
-          <div className="mt-28 flex flex-col items-center gap-12">
-            <span className="text-6xl font-semibold">peersafe</span>
+          <div className="-mt-12 flex flex-col items-center gap-12">
+            <span className="text-6xl font-semibold">
+              Peer<span className="text-green-600">Safe</span>
+            </span>
             <span className="max-w-[26rem] text-center text-lg text-zinc-500">
               a next-gen decentralized file storage solution that ensures that
               your data is truly yours
             </span>
             {/* Buttons container */}
-            <div className="flex gap-4 pb-24">
+            <div className="flex gap-4">
               {userContext ? (
                 <Link to="/app">
-                  <BaseButton className={heroButtonStyle}>go to app</BaseButton>
+                  <BaseButton className={homeButtonStyle}>go to app</BaseButton>
                 </Link>
               ) : (
                 <ButtonLogin
-                  className={heroButtonStyle}
+                  className={homeButtonStyle}
                   web3Auth={web3Auth}
                   onSuccess={() => navigate({ to: "/app" })}
                 >
                   <>
-                    start here
+                    Try it out
                     <svg
                       height="17px"
                       width="17px"
@@ -55,18 +59,35 @@ const Home = ({ web3Auth }: { web3Auth: Web3Auth }) => {
                 </ButtonLogin>
               )}
               <BaseButton
-                className={heroButtonStyle}
+                className={homeButtonStyle}
                 onClick={() => {
-                  window.open(
-                    "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                    "_blank"
-                  );
+                  howItWorksRef.current?.scrollIntoView({ behavior: "smooth" });
                 }}
               >
-                how it works
+                how it works ↓
               </BaseButton>
             </div>
           </div>
+          {/* about container */}
+          <div className="flex flex-col gap-12">
+            <span className="text-center text-5xl font-semibold">Why?</span>
+            <div className="text-center text-lg text-zinc-500">
+              <span className="text-green-600">OWN</span> your data.
+              <br />
+              Peersafe encrypts all your files, and is fully decentralized.
+            </div>
+          </div>
+          {/* how it works container */}
+          <div ref={howItWorksRef} className="flex flex-col gap-12">
+            <span className="text-center text-5xl font-semibold text-zinc-300">
+              How it works
+            </span>
+            <div className="flex flex-col gap-12 text-center text-lg text-zinc-500">
+              <p>Magic ✨ (not really, will update this soon)</p>
+            </div>
+          </div>
+          {/* footer */}
+          <Footer />
         </div>
       </div>
     </>

@@ -10,8 +10,6 @@ import { useContext } from "react";
 import { getVaultAddress } from "../services/peerSafeDeployer";
 import BaseButton from "./BaseButton";
 
-const authButtonStyleDefault = "hover:text-gray-400 disabled:text-gray-400";
-
 export const appLogin = async (
   web3Auth: Web3Auth,
   setUserContext: React.Dispatch<
@@ -55,7 +53,7 @@ export const ButtonLogout = ({
 
   return (
     <BaseButton
-      className={className || authButtonStyleDefault}
+      className={className || ""}
       onClick={async () => {
         setIsDisconnecting(true);
         await disconnectAsync();
@@ -89,7 +87,7 @@ export const ButtonLogin = ({
     <div className="flex items-start gap-2">
       {connectors.map((connector) => (
         <BaseButton
-          className={className || authButtonStyleDefault}
+          className={className || ""}
           disabled={isConnecting || !connector.ready}
           key={connector.id}
           onClick={() => {
