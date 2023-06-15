@@ -4,7 +4,7 @@ import { Web3Auth } from "@web3auth/modal";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { CHAIN_NAMESPACES } from "@web3auth/base";
 import { Chain } from "wagmi";
-const logo = require("../assets/logo.svg").default;
+const logo = require("../assets/logo-green.svg").default;
 
 let clientId = process.env.REACT_APP_WEB3_AUTH_CLIENT_ID!;
 

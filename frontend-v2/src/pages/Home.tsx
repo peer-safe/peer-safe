@@ -22,9 +22,9 @@ const Home = ({ web3Auth }: { web3Auth: Web3Auth }) => {
         {/* Content with max width */}
         <div className="flex w-full max-w-5xl flex-1 flex-col gap-12 overflow-hidden px-6 pb-6">
           {/* Hero */}
-          <div className="relative flex h-[calc(100vh-6rem)] justify-center">
-            <div className="fade-in-2 absolute bottom-0 top-0 -z-10 aspect-[589/408] bg-hero bg-cover opacity-0"></div>
-            <div className="fade-in flex flex-col items-center justify-center gap-12">
+          <div className="flex h-[calc(100vh-8rem)] items-center justify-center">
+            <div className="fade-in relative flex flex-col items-center justify-center gap-12">
+              <div className="fade-in-2 absolute -bottom-32 -top-32 -z-10 aspect-[589/408] bg-hero bg-cover opacity-0"></div>
               <span className="text-6xl font-semibold">
                 Peer<span className="text-green-400">Safe</span>
               </span>
@@ -93,7 +93,23 @@ const Home = ({ web3Auth }: { web3Auth: Web3Auth }) => {
                 How it works
               </span>
               <div className="flex flex-col gap-12 text-center text-lg text-zinc-500">
-                <p>Magic ✨ (not really, will update this soon)</p>
+                <p>
+                  Magic{" "}
+                  <span className="relative">
+                    <a
+                      href="https://www.youtube.com/watch?v=p7YXXieghto"
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      ✨
+                    </a>
+                    <img
+                      alt="arrow"
+                      src={require("../assets/arrow.svg").default}
+                      className="absolute left-4 top-3 -scale-x-100 min-w-[3rem]"
+                    ></img>
+                  </span>
+                </p>
               </div>
             </div>
             {/* footer */}

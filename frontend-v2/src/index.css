@@ -4,7 +4,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@200;400;600&display=swap");
 
 html {
-  @apply 2xl:text-xl;
+  @apply 2xl:text-lg;
 }
 
 body {

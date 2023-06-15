@@ -12,8 +12,8 @@ const Navbar = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   const { userContext } = useContext(UserContext)!;
   const location = useLocation();
   return (
-    <div className="sticky top-0 z-20 flex w-full justify-center bg-[rgb(26,29,31)] shadow-md">
-      <div className="flex max-w-5xl flex-1 items-center px-5 py-3">
+    <div className="top-0 z-20 flex w-full justify-center shadow-md">
+      <div className="flex max-w-5xl flex-1 items-center p-5">
         <Link to={"/"} className="shrink-0">
           <img
             src={require("../assets/logo-green.svg").default}

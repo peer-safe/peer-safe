@@ -160,7 +160,7 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
       <div className="flex w-full min-w-[340px] flex-col items-center">
         <Navbar web3Auth={web3Auth} />
         {/* Content with max width */}
-        <div className="flex min-h-[calc(100vh-5rem)] w-full max-w-5xl flex-1 flex-col gap-12 px-6 pt-6">
+        <div className="flex min-h-[calc(100vh-6.5rem)] w-full max-w-5xl flex-1 flex-col gap-12 px-6 pt-6">
           <div className="flex flex-1 flex-col justify-between pt-2">
             {!userContext.vaultAddress.length ? (
               <span className="flex-1 self-center">
