@@ -62,7 +62,7 @@ export const ButtonLogout = ({
       }}
       disabled={isDisconnecting}
     >
-      {children || "logout"}
+      {children || "Logout"}
     </BaseButton>
   );
 };
@@ -98,7 +98,7 @@ export const ButtonLogin = ({
               .finally(() => setIsConnecting(false));
           }}
         >
-          {children || "login"}
+          {children || "Login"}
         </BaseButton>
       ))}
     </div>

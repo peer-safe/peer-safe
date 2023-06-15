@@ -157,12 +157,11 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
     <>
       {/* Background, whole screen
       <div className="fixed -left-20 -right-20 -top-20 -z-10 h-[calc(100vh+160px)] bg-cover" /> */}
-      <div className="flex w-full justify-center">
+      <div className="flex w-full min-w-[340px] flex-col items-center">
+        <Navbar web3Auth={web3Auth} />
         {/* Content with max width */}
-        <div className="flex max-w-5xl flex-1 flex-col gap-12 p-6">
-          <Navbar web3Auth={web3Auth} />
-
-          <div className="flex flex-1 flex-col p-2">
+        <div className="flex min-h-[calc(100vh-5rem)] w-full max-w-5xl flex-1 flex-col gap-12 px-6 pt-6">
+          <div className="flex flex-1 flex-col justify-between pt-2">
             {!userContext.vaultAddress.length ? (
               <span className="flex-1 self-center">
                 Please wait while we create your vault
@@ -186,7 +185,7 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
               </div>
             )}
           </div>
-          <div className="p-2 text-center">
+          <div className="pt-4 text-center">
             Caution: This project is volatile, contracts may change and can
             cause loss of data. Also file upload limit for now is 5MB (working
             on this).

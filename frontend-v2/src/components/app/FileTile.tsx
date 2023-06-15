@@ -22,7 +22,7 @@ const FileTile = ({
   );
 
   return (
-    <div className="relative flex h-[8.5rem] w-56 bg-white bg-opacity-10 rounded-md">
+    <div className="relative flex h-[8.5rem] w-56 rounded-md bg-white bg-opacity-5">
       {downloadingFile || deletingFile ? (
         <span className="z-10 flex flex-1 cursor-wait items-center justify-center self-stretch text-zinc-300">
           {downloadingFile ? "downloading..." : "deleting..."}
