@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="flex items-center gap-2">
         By
         <a
-          href="https://github.com/Shubhaankar-Sharma/"
+          href="https://spongeboi.com/"
           target="_blank"
           rel="noreferrer"
         >

@@ -21,7 +21,7 @@ const Navbar = ({ web3Auth }: { web3Auth: Web3Auth }) => {
             alt="logo"
           ></img>
         </Link>
-        <span className="ml-2 rounded-full px-2 text-gray-400">alpha</span>
+        <span className="ml-2 rounded-full px-2 text-gray-400 text-sm bg-zinc-700">alpha</span>
         <div className="flex-1" />
         <div className="flex items-center gap-4">
           {!userContext ? (

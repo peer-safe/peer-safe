@@ -4,6 +4,7 @@ import { ButtonLogin } from "../ButtonsAuth";
 import { useContext } from "react";
 import { UserContext } from "../../utils/globalContext";
 import { Link, useNavigate } from "@tanstack/react-location";
+import Illustration from "./illustration";
 
 const heroButtonStyle =
   "px-4 py-2 gap-2 transition-all justify-center ease-in-out bg-zinc-800 hover:bg-zinc-700 disabled:bg-zinc-800 rounded-full flex items-center disabled:cursor-wait";
@@ -19,14 +20,12 @@ const Hero = ({
   const navigate = useNavigate();
   return (
     <div className="relative flex h-[calc(100vh-8rem)] flex-col py-12">
-      <div className="fade-in-2 absolute bottom-0 right-0 top-0 -z-10 flex aspect-[646/820] items-center justify-end">
-        <img
-          alt="illustration"
-          className="max-w-[20rem] flex-1 md:max-w-[26rem] lg:max-w-[32rem] 2xl:max-w-[36rem]"
-          loading="eager"
-          src={require("../../assets/hero_illustration.webp")}
-        />
-      </div>
+      <Illustration
+        data="data"
+        decryption="decryption"
+        encryption="encryption"
+        storage="storage"
+      />
       <span className="fade-in flex flex-1 items-center text-7xl font-semibold">
         Peer<span className="text-emerald-300">Safe</span>
       </span>
@@ -52,17 +51,12 @@ const Hero = ({
             >
               <>
                 Let's start
-                <svg
-                  height="17px"
-                  width="17px"
-                  viewBox="0 0 17 17"
-                  version="1.1"
-                >
-                  <path
-                    d="M9.644 8.5l-6.854 6.854-0.707-0.707 6.146-6.147-6.146-6.146 0.707-0.708 6.854 6.854zM7.634 1.646l-0.707 0.708 6.146 6.146-6.146 6.146 0.707 0.707 6.853-6.853-6.853-6.854z"
-                    fill="#ffffff"
-                  />
-                </svg>
+                <img
+                  src={require("../../assets/right-arrow.svg").default}
+                  alt="rightarrow"
+                  height="18px"
+                  width="18px"
+                />
               </>
             </ButtonLogin>
           )}
