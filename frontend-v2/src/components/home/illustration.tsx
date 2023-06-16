@@ -16,7 +16,7 @@ const Illustration = ({
     xmlnsXlink="http://www.w3.org/1999/xlink"
     xmlns="http://www.w3.org/2000/svg"
     fontFamily="'JetBrains Mono'"
-    className="fade-in-2 absolute -top-12 h-[calc(100%+6rem)] right-0 -z-10 aspect-[856/1090] items-center"
+    className="fade-in-2 absolute -top-12 h-[calc(100%+6rem)] max-w-[calc(100vw-4rem)] max-sm:h-full max-sm:-top-8 right-0 -z-10 aspect-[856/1090] items-center"
   >
     <style id="style62471" />
     <defs id="defs815">
