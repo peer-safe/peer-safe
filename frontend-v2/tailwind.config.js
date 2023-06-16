@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       backgroundImage: (theme) => ({
         home: "url('./assets/bg.svg')",
-        hero: "url('./assets/hero.webp')",
+        hero: "url('./assets/hero_illustration.webp')",
         homeMobile: "url('./assets/bg_mobile.webp')",
         glass: "url('./assets/glass.webp')",
       }),

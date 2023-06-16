@@ -12,7 +12,7 @@ const Navbar = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   const { userContext } = useContext(UserContext)!;
   const location = useLocation();
   return (
-    <div className="top-0 z-20 flex w-full justify-center shadow-md">
+    <div className="top-0 z-20 flex w-full justify-center">
       <div className="flex max-w-5xl flex-1 items-center p-5">
         <Link to={"/"} className="shrink-0">
           <img
