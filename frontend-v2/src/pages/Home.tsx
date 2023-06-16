@@ -21,7 +21,7 @@ const Home = ({ web3Auth }: { web3Auth: Web3Auth }) => {
           <div className="flex flex-col gap-20 pt-14">
             <div className="flex flex-col gap-16 lg:flex-row">
               <About />
-              <HowItWorks howItWorksRef={howItWorksRef} />
+              <HowItWorks ref={howItWorksRef} />
             </div>
             {/* footer */}
             <Footer />
