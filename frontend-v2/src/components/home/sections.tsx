@@ -7,9 +7,19 @@ export const About = () => {
   return (
     <div className={baseSectionStyle}>
       <>
-        <span className="text-4xl font-semibold text-zinc-300">Why</span>
+        <span className="text-4xl font-semibold text-zinc-300">Why?</span>
         <div className="text-lg text-zinc-500 sm:text-right">
-          Peersafe encrypts all your files, and is fully decentralized.
+          TO SAVE THE WORLD! <br />
+          not convinced? <br />
+          hehe then &nbsp;
+          <a
+            href="https://spongeboi.notion.site/spongeboi/PeerSafe-d3aac8ebbd104f4fbba69ff930e6f13d"
+            rel="noreferrer"
+            target="_blank"
+            className="text-2xl underline"
+          >
+            here's why
+          </a>
         </div>
       </>
     </div>
@@ -21,26 +31,26 @@ export const HowItWorks = forwardRef(
     return (
       <div className={baseSectionStyle} ref={ref}>
         <>
-          <span className="text-4xl font-semibold text-zinc-300">How</span>
+          <span className="text-4xl font-semibold text-zinc-300">How?</span>
           <div className="flex justify-center gap-2 self-center text-lg text-zinc-500 max-sm:pb-4 sm:max-lg:pr-8 lg:flex-1">
-            <p className="flex gap-2">
-              Magic{" "}
-              <span className="relative">
-                <a
-                  href="https://www.youtube.com/watch?v=p7YXXieghto"
+            <a
+                  href="https://spongeboi.notion.site/spongeboi/PeerSafe-d3aac8ebbd104f4fbba69ff930e6f13d"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-2xl"
-                >
+                  className="flex gap-2"
+            >
+              Magic{" "}
+              <span className="relative">
+                <p className="text-2xl">
                   ✨
-                </a>
-                <img
-                  alt="arrow"
-                  src={require("../../assets/arrow.svg").default}
-                  className="absolute left-5 top-5 min-w-[3rem] -scale-x-100"
-                ></img>
+                </p>
+              <img
+                alt="arrow"
+                src={require("../../assets/arrow.svg").default}
+                className="absolute left-5 top-5 min-w-[3rem] -scale-x-100"
+              ></img>
               </span>
-            </p>
+            </a>
           </div>
         </>
       </div>
