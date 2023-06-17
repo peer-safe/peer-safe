@@ -2,7 +2,7 @@ import { useState } from "react";
 import BaseButton from "../BaseButton";
 
 const buttonStyle =
-  "py-2 px-4 bg-green-700 hover:bg-green-800 transition-all ease-in-out rounded-full text-sm";
+  "py-2 px-4 bg-emerald-600 hover:bg-emerald-700 transition-all ease-in-out rounded-full text-sm";
 
 const FileTile = ({
   filename,

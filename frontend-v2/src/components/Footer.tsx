@@ -19,6 +19,8 @@ const Footer = () => {
               alt="member"
               width="20px"
               height="auto"
+              decoding="async"
+              loading="lazy"
               className="rounded-full"
             ></img>
             <span className="max-sm:hidden">SpongeBoi</span>
@@ -36,9 +38,11 @@ const Footer = () => {
               alt="member"
               width="20px"
               height="auto"
+              decoding="async"
+              loading="lazy"
               className="rounded-full"
             ></img>
-            <span className="max-sm:hidden">KrYmZiN</span>
+            <span className="max-sm:hidden">Krymzin</span>
           </BaseButton>
         </a>
       </div>
@@ -54,6 +58,8 @@ const Footer = () => {
             alt="github"
             width="20px"
             height="auto"
+            decoding="async"
+            loading="lazy"
           ></img>
           <span className="max-sm:hidden">GitHub</span>
         </BaseButton>

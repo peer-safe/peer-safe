@@ -129,7 +129,7 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
           className={`select-none rounded-full px-3 py-2 transition-all ease-in-out ${
             uploadingFile
               ? "cursor-not-allowed bg-zinc-600"
-              : "cursor-pointer bg-green-700 hover:bg-green-800"
+              : "cursor-pointer bg-emerald-600 hover:bg-emerald-700"
           }`}
         >
           {uploadingFile
