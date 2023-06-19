@@ -23,7 +23,7 @@ const Hero = ({
     <div className="relative flex h-[calc(100vh-8rem)] flex-col py-12">
       <Illustration />
       <span className="fade-in flex flex-1 items-center text-7xl font-semibold">
-        Peer<span className="text-emerald-300">Safe</span>
+        Peer<span className="text-emerald-400">Safe</span>
       </span>
       <div className="fade-in relative flex flex-col gap-6 py-6">
         <span className="text-4xl text-zinc-300">own your data.</span>

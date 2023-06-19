@@ -70,7 +70,7 @@ const Illustration = () => {
           48200 - svgTime
         );
       } else {
-        console.log("svgAnimEncryption out of sync:", svgTime);
+        console.debug("svgAnimEncryption out of sync:", svgTime);
         if (svgTime < 8100) {
           encryptionTimeout.current = setTimeout(
             changeEncryption,
@@ -101,7 +101,7 @@ const Illustration = () => {
           68200 - svgTime
         );
       } else {
-        console.log("svgAnimDecryption out of sync:", svgTime);
+        console.debug("svgAnimDecryption out of sync:", svgTime);
         if (svgTime < 28100) {
           decryptionTimeout.current = setTimeout(
             changeDecryption,
