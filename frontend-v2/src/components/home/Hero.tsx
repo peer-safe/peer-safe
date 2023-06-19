@@ -21,12 +21,7 @@ const Hero = ({
   const navigate = useNavigate();
   return (
     <div className="relative flex h-[calc(100vh-8rem)] flex-col py-12">
-      <Illustration
-        data="data"
-        decryption="decryption"
-        encryption="encryption"
-        storage="storage"
-      />
+      <Illustration />
       <span className="fade-in flex flex-1 items-center text-7xl font-semibold">
         Peer<span className="text-emerald-300">Safe</span>
       </span>
