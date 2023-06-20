@@ -11,10 +11,14 @@
       transparent 90%
     );
   }
+
+  .selected {
+    @apply bg-[#6ee7b777]
+  }
 }
 
 html {
-  @apply max-sm:text-[15px] 2xl:text-lg;
+  @apply max-sm:text-[15px];
 }
 
 body {

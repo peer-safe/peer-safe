@@ -1,5 +1,5 @@
 import { Web3Auth } from "@web3auth/modal";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/home/Navbar";
 import Footer from "../components/Footer";
 import Hero from "../components/home/Hero";
 import { useEffect, useRef } from "react";

@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-location";
 import Home from "./pages/Home";
 import AppPage from "./pages/App";
+import MyVault from "./pages/App/MyVault";
 import type { Web3Auth } from "@web3auth/modal";
 import "./index.css";
 import { useEffect, useState } from "react";
@@ -77,12 +78,18 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
           element: <Home web3Auth={web3Auth} />,
         },
         {
-          path: "/app",
+          id: "app",
           element: (
             <ProtectedRoute>
               <AppPage web3Auth={web3Auth} />
             </ProtectedRoute>
           ),
+          children: [
+            {
+              path: "/*",
+              element: <MyVault web3Auth={web3Auth} />
+            }
+          ]
         },
         {
           path: "/*",

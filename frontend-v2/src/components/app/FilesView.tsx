@@ -2,6 +2,7 @@ import { SafeEventEmitterProvider } from "@web3auth/base";
 import { MyFile } from "../../services/peerSafeDeployer";
 import FileTile from "./FileTile";
 import { toast } from "react-hot-toast";
+import { useEffect, useRef } from "react";
 
 const downloadFileButton = async (
   fileHash: string,
@@ -78,6 +79,30 @@ const FilesView = ({
   populateFiles: () => Promise<void>;
   unpinContent: (ipfsHash: string) => Promise<void>;
 }) => {
+  const filesRef = useRef<HTMLDivElement[]>([]);
+
+  useEffect(() => {
+    const pageDiv = document.body;
+
+    const moveEvent = (ev: MouseEvent) => {
+      filesRef.current.forEach((target) => {
+        const rect = target.getBoundingClientRect(),
+          x = ev.clientX - rect.left,
+          y = ev.clientY - rect.top;
+        target.style.setProperty("--mouse-x", `${x}px`);
+        target.style.setProperty("--mouse-y", `${y}px`);
+      });
+    };
+
+    if (matchMedia("(pointer:fine)").matches) {
+      pageDiv.addEventListener("mousemove", moveEvent);
+    }
+
+    return () => {
+      pageDiv.removeEventListener("mousemove", moveEvent);
+    };
+  }, []);
+
   if (!files.length) {
     return <span> No Files </span>;
   }
@@ -89,6 +114,9 @@ const FilesView = ({
           <FileTile
             filename={file._name}
             key={index}
+            ref={(el) => {
+              if (el) filesRef.current[index] = el;
+            }}
             downloadFunc={() =>
               downloadFileButton(
                 file._ipfsHash,
