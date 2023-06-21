@@ -44,30 +44,6 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
     return <Navigate to="/" />;
   }
 
-  const LoggedInUserInfo = () => {
-    const userInfo = userContext.userInfo;
-    return (
-      <div className="flex flex-col items-center">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-zinc-400">Name:</span>{" "}
-          <span>{userInfo.name}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-zinc-400">Email:</span>{" "}
-          <a href={`mailto:${userInfo.email}`}>{userInfo.email}</a>
-        </div>
-        <a
-          className="mt-4 rounded-full border border-solid px-4 py-2"
-          href={`https://mumbai.polygonscan.com/address/${userContext.vaultAddress}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          View contract
-        </a>
-      </div>
-    );
-  };
-
   const uploadFileWrapper = async () => {
     try {
       setUploadingFile(true);
@@ -104,12 +80,12 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
           htmlFor="file"
           className={`select-none rounded-full px-3 py-2 transition-all ease-in-out ${
             uploadingFile
-              ? "cursor-not-allowed bg-zinc-600"
-              : "cursor-pointer bg-emerald-600 hover:bg-emerald-700"
+              ? "cursor-progress bg-none text-gray-600"
+              : "cursor-pointer bg-zinc-700 hover:bg-zinc-600"
           }`}
         >
           {uploadingFile
-            ? "Hol up this takes a bit"
+            ? "uploading"
             : file
             ? file.name
             : "Select file"}
@@ -118,7 +94,7 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
           onClick={uploadFileWrapper}
           className={`disabled:text-gray-600 ${
             uploadingFile
-              ? "disabled:cursor-progress"
+              ? "disabled:cursor-progress hidden"
               : "disabled:cursor-not-allowed"
           }`}
           disabled={file === null || uploadingFile}
@@ -130,27 +106,23 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   };
 
   return (
-    /* Content with max width */
-    <div className="flex w-full max-w-5xl flex-1 flex-col gap-12 px-6 pt-6">
-      <div className="flex flex-1 flex-col justify-between pt-2">
-        <div className="flex flex-col items-center gap-6">
-          <LoggedInUserInfo />
-          <FileUploadForm />
-          {loadingFiles ? (
-            <>loading</>
-          ) : (
-            <FilesView
-              deleteFile={deleteFile}
-              downloadFile={downloadFile}
-              files={files}
-              provider={provider}
-              populateFiles={populateFiles}
-              unpinContent={unpinContent}
-            />
-          )}
-        </div>
+    <div className="flex flex-1 flex-col gap-12">
+      <div className="flex flex-1 flex-col gap-6">
+        <FileUploadForm />
+        {loadingFiles ? (
+          <>loading</>
+        ) : (
+          <FilesView
+            deleteFile={deleteFile}
+            downloadFile={downloadFile}
+            files={files}
+            provider={provider}
+            populateFiles={populateFiles}
+            unpinContent={unpinContent}
+          />
+        )}
       </div>
-      <div className="pt-4 text-center">
+      <div className="text-center">
         Caution: This project is volatile, contracts may change and can cause
         loss of data. Also file upload limit for now is 5MB (working on this).
       </div>

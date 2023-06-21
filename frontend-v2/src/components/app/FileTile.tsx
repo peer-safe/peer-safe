@@ -1,9 +1,6 @@
 import { forwardRef, useState } from "react";
 import BaseButton from "../BaseButton";
 
-const buttonStyle =
-  "py-2 px-4 bg-emerald-600 hover:bg-emerald-700 transition-all ease-in-out rounded-full text-sm";
-
 const FileTile = forwardRef(
   (
     {
@@ -28,7 +25,7 @@ const FileTile = forwardRef(
     return (
       <div
         ref={ref}
-        className="before:border-glow relative flex h-[11.5rem] w-48 rounded-2xl bg-[#101010] before:absolute before:-bottom-[1px] before:-left-[1px] before:-right-[1px] before:-top-[1px] before:-z-10 before:rounded-2xl before:bg-[#2d2d2d] before:content-['']"
+        className="before:border-glow relative flex aspect-[10/8] rounded-2xl bg-[#101010] before:absolute before:-bottom-[1px] before:-left-[1px] before:-right-[1px] before:-top-[1px] before:-z-10 before:rounded-2xl before:bg-[#2d2d2d] before:content-['']"
       >
         {downloadingFile || deletingFile ? (
           <span className="z-10 flex flex-1 cursor-wait items-center justify-center self-stretch text-zinc-300">
@@ -38,9 +35,9 @@ const FileTile = forwardRef(
           <div className="flex max-w-full flex-1 flex-col justify-between p-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="w-8 h-8"
+              className="h-8 w-6"
               fill="currentColor"
-              viewBox="0 0 16 16"
+              viewBox="2 0 12 16"
             >
               <path d="M7 7a1 1 0 0 1 2 0v1H7V7zM6 9.3c0-.042.02-.107.105-.175A.637.637 0 0 1 6.5 9h3a.64.64 0 0 1 .395.125c.085.068.105.133.105.175v2.4c0 .042-.02.107-.105.175A.637.637 0 0 1 9.5 12h-3a.637.637 0 0 1-.395-.125C6.02 11.807 6 11.742 6 11.7V9.3z" />
               <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM10 7v1.076c.54.166 1 .597 1 1.224v2.4c0 .816-.781 1.3-1.5 1.3h-3c-.719 0-1.5-.484-1.5-1.3V9.3c0-.627.46-1.058 1-1.224V7a2 2 0 1 1 4 0z" />
@@ -59,7 +56,7 @@ const FileTile = forwardRef(
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6"
+                  className="h-6 w-6"
                   fill="currentColor"
                   viewBox="0 0 16 16"
                 >
@@ -79,7 +76,7 @@ const FileTile = forwardRef(
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6"
+                  className="h-6 w-6"
                   fill="currentColor"
                   viewBox="0 0 16 16"
                 >

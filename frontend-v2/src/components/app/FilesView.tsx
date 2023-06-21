@@ -108,7 +108,9 @@ const FilesView = ({
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-4">
+    <div
+      className="grid w-full gap-4 files-grid"
+    >
       {files.map((file: MyFile, index) => {
         return (
           <FileTile

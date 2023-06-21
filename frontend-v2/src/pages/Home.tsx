@@ -37,11 +37,9 @@ const Home = ({ web3Auth }: { web3Auth: Web3Auth }) => {
 
   return (
     <>
-      {/* Background, whole screen
-      <div className="fixed -left-20 -right-20 -top-20 -z-10 h-[calc(100vh+160px)] bg-cover" /> */}
       <div
         ref={pageRef}
-        className="flex w-full min-w-[340px] flex-col items-center"
+        className="flex w-full min-w-[25rem] flex-col items-center"
       >
         <Navbar web3Auth={web3Auth} />
         {/* Content with max width */}

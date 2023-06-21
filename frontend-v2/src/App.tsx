@@ -21,6 +21,7 @@ import { LOGIN_MODAL_EVENTS } from "@web3auth/ui";
 import { appLogin } from "./components/ButtonsAuth";
 import FullScreenLoading from "./pages/FullScreenLoading";
 import { useConnect } from "wagmi";
+import SharedWithMe from "./pages/App/SharedWithMe";
 
 const location = new ReactLocation();
 
@@ -36,7 +37,10 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   const { connectAsync, connectors } = useConnect();
 
   useEffect(() => {
-    console.log("is wagmi localstorage:", wasWagmiConnected);
+    setWasWagmiConnected(
+      JSON.parse(`${localStorage.getItem("wagmi.connected")}`) || false
+    );
+    console.debug("was wagmi connected:", wasWagmiConnected);
 
     const modalListener = (visible: boolean) => {
       if (!visible) setIsConnecting(false);
@@ -50,7 +54,6 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
     web3Auth.on(LOGIN_MODAL_EVENTS.MODAL_VISIBILITY, modalListener);
 
     if (wasWagmiConnected) {
-      localStorage.removeItem("wagmi.connected");
       appLogin(web3Auth, setUserContext, connectAsync, connectors[0])
         .then()
         .catch((e) => {
@@ -79,6 +82,7 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
         },
         {
           id: "app",
+          path: "app",
           element: (
             <ProtectedRoute>
               <AppPage web3Auth={web3Auth} />
@@ -86,13 +90,21 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
           ),
           children: [
             {
-              path: "/*",
-              element: <MyVault web3Auth={web3Auth} />
-            }
-          ]
+              path: "/shared",
+              element: <SharedWithMe web3Auth={web3Auth} />,
+            },
+            {
+              path: "/",
+              element: <MyVault web3Auth={web3Auth} />,
+            },
+            {
+              path: "*",
+              element: <Navigate to="/app" />,
+            },
+          ],
         },
         {
-          path: "/*",
+          path: "*",
           element: <Navigate to="/" />,
         },
       ]}

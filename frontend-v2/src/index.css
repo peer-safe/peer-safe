@@ -15,10 +15,13 @@
   .selected {
     @apply bg-[#6ee7b777]
   }
-}
+  .selected:hover {
+    @apply bg-[#6ee7b777] !important
+  }
 
-html {
-  @apply max-sm:text-[15px];
+  .files-grid {
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  }
 }
 
 body {
