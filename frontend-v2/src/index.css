@@ -24,6 +24,10 @@
   }
 }
 
+html {
+  @apply max-sm:text-sm;
+}
+
 body {
   @apply bg-[#101010] text-white;
 }
