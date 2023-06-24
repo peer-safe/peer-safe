@@ -39,7 +39,7 @@ const Home = ({ web3Auth }: { web3Auth: Web3Auth }) => {
     <>
       <div
         ref={pageRef}
-        className="flex w-full min-w-[25rem] flex-col items-center"
+        className="flex w-full min-w-[18rem] flex-col items-center"
       >
         <Navbar web3Auth={web3Auth} />
         {/* Content with max width */}

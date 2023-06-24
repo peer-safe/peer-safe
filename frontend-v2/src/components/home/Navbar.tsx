@@ -6,7 +6,7 @@ import { Link } from "@tanstack/react-location";
 import BaseButton from "./../BaseButton";
 
 const navButtonStyle =
-  "py-2 px-4 whitespace-nowrap transition-all ease-in-out bg-zinc-800 hover:bg-zinc-700 disabled:bg-zinc-800 rounded-full flex items-center disabled:cursor-wait";
+  "py-2 px-4 whitespace-nowrap  transition-all ease-in-out duration-300 bg-zinc-800 hover:bg-zinc-700 disabled:bg-zinc-800 rounded-full flex items-center disabled:cursor-wait";
 
 const Navbar = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   const { userContext } = useContext(UserContext)!;
@@ -20,7 +20,9 @@ const Navbar = ({ web3Auth }: { web3Auth: Web3Auth }) => {
             alt="logo"
           ></img>
         </Link>
-        <span className="ml-2 rounded-full px-2 text-gray-400 text-sm bg-zinc-700">alpha</span>
+        <span className="ml-2 rounded-full bg-zinc-700 px-2 text-sm text-gray-400">
+          alpha
+        </span>
         <div className="flex-1" />
         <div className="flex items-center gap-4">
           {!userContext ? (

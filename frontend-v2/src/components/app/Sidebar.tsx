@@ -4,7 +4,7 @@ import { Web3Auth } from "@web3auth/modal";
 import { useLocation } from "@tanstack/react-location";
 import { useEffect } from "react";
 
-const buttonStyle = "pl-6 py-4 flex items-center gap-8 bg-zinc-700 rounded-lg hover:bg-zinc-600";
+const buttonStyle = "pl-6 py-4 flex items-center gap-8 bg-zinc-700 rounded-xl hover:bg-zinc-600 transition-all ease-in-out duration-300";
 const URL_MAIN = "/app";
 const URL_SHARED = "/app/shared";
 

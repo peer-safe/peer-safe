@@ -3536,6 +3536,18 @@
     "@typescript-eslint/types" "5.59.7"
     eslint-visitor-keys "^3.3.0"
 
+"@viselect/react@^3.2.7":
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/@viselect/react/-/react-3.2.7.tgz#6ddc34c45aef7c0c9b509f7db4bf19fabe54f1ee"
+  integrity sha512-GSQCnQ+4aC2g7I68xKktnww1zeU0zUBFiDCwqSumDFHHE6JKQDl5dNtazlykEhMF6X9HpPoRipnP3OkdVlB7Sg==
+  dependencies:
+    "@viselect/vanilla" "^3.2.7"
+
+"@viselect/vanilla@^3.2.7":
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/@viselect/vanilla/-/vanilla-3.2.7.tgz#4de32314b0489de02b6b1bd7ac2e576fffd32059"
+  integrity sha512-wzdtrbCrdgBOaS0yqNspbSHg1k8FjEA/coPmFRthDwaE4o+ApK5zVN7lbjZVVNon2O5ZYpaYYVIEctrDJ/Azag==
+
 "@wagmi/chains@0.1.14":
   version "0.1.14"
   resolved "https://registry.yarnpkg.com/@wagmi/chains/-/chains-0.1.14.tgz#2740762f2719df2c69c63ab30b67fdf4bef70305"

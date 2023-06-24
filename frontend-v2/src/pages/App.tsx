@@ -42,7 +42,7 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   }
 
   return (
-    <div className="relative min-w-[25rem] flex h-screen w-full gap-4 bg-black p-4 overflow-hidden">
+    <div className="relative min-w-[18rem] flex h-screen w-full gap-4 bg-black p-4 overflow-hidden">
       <Sidebar web3Auth={web3Auth} />
       <div className="z-10 flex min-w-[340px] flex-1 flex-col overflow-y-scroll rounded-xl bg-[#101010] p-4">
         <Navbar web3Auth={web3Auth}  userContext={userContext} />

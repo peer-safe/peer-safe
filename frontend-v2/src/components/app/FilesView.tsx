@@ -2,7 +2,8 @@ import { SafeEventEmitterProvider } from "@web3auth/base";
 import { MyFile } from "../../services/peerSafeDeployer";
 import FileTile from "./FileTile";
 import { toast } from "react-hot-toast";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import SelectionArea, { SelectionEvent } from "@viselect/react";
 
 const downloadFileButton = async (
   fileHash: string,
@@ -80,6 +81,7 @@ const FilesView = ({
   unpinContent: (ipfsHash: string) => Promise<void>;
 }) => {
   const filesRef = useRef<HTMLDivElement[]>([]);
+  const [selected, setSelected] = useState<Set<number>>(() => new Set());
 
   useEffect(() => {
     const pageDiv = document.body;
@@ -103,19 +105,63 @@ const FilesView = ({
     };
   }, []);
 
+  const beforeSelectionStart = ({ event, selection }: SelectionEvent) => {
+    if (!event?.ctrlKey && !event?.metaKey) {
+      setSelected(() => new Set());
+    }
+  };
+
+  const extractIds = (els: Element[]): number[] =>
+    els
+      .map((v) => {
+        console.debug(v.getAttributeNames());
+        return v.getAttribute("data-key");
+      })
+      .filter(Boolean)
+      .map(Number);
+
+  const onSelectionMove = ({
+    store: {
+      changed: { added, removed },
+    },
+  }: SelectionEvent) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      extractIds(added).forEach((id) => next.add(id));
+      extractIds(removed).forEach((id) => next.delete(id));
+      return next;
+    });
+  };
+
   if (!files.length) {
     return <span> No Files </span>;
   }
 
   return (
-    <div
-      className="grid w-full gap-4 files-grid"
+    <SelectionArea
+      onMove={onSelectionMove}
+      onBeforeStart={beforeSelectionStart}
+      selectables=".selectable"
+      container=".selectionarea"
+      className="selectionarea sm:files-grid max-sm:files-grid-sm grid w-full flex-1 select-none gap-4"
+      behaviour={{
+        overlap: "keep",
+        intersect: "touch",
+        startThreshold: 10,
+        scrolling: {
+          speedDivider: 10,
+          manualSpeed: 750,
+          startScrollMargins: { x: 0, y: 0 },
+        },
+      }}
     >
       {files.map((file: MyFile, index) => {
         return (
           <FileTile
             filename={file._name}
+            dataKey={index}
             key={index}
+            selected={selected.has(index)}
             ref={(el) => {
               if (el) filesRef.current[index] = el;
             }}
@@ -142,7 +188,7 @@ const FilesView = ({
           />
         );
       })}
-    </div>
+    </SelectionArea>
   );
 };
 

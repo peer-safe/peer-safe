@@ -81,7 +81,7 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
           className={`select-none rounded-full px-3 py-2 transition-all ease-in-out ${
             uploadingFile
               ? "cursor-progress bg-none text-gray-600"
-              : "cursor-pointer bg-zinc-700 hover:bg-zinc-600"
+              : "cursor-pointer bg-zinc-700 hover:bg-zinc-600 transition-all ease-in-out duration-300"
           }`}
         >
           {uploadingFile
@@ -121,10 +121,6 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
             unpinContent={unpinContent}
           />
         )}
-      </div>
-      <div className="text-center">
-        Caution: This project is volatile, contracts may change and can cause
-        loss of data. Also file upload limit for now is 5MB (working on this).
       </div>
     </div>
   );
