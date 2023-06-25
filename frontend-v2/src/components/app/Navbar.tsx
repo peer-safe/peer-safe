@@ -28,7 +28,8 @@ const Navbar = ({
         Math.sqrt(
           (x - (img.left + img.width / 2)) ** 2 +
             (y - (img.top + img.height / 2)) ** 2
-        ) > img.height/2 &&
+        ) >
+          img.height / 2 &&
         userDetailsModalOpen
       ) {
         setUserDetailsModalOpen(false);

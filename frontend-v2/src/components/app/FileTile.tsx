@@ -30,7 +30,7 @@ const FileTile = forwardRef(
       <div
         ref={ref}
         className={`selectable relative flex h-[11rem] select-none rounded-2xl border-[1px]  bg-[#101010] ${
-          selected ? "selected border-blue-600" : "border-[#2d2d2d]"
+          selected ? "user-selected border-blue-600" : "border-[#2d2d2d]"
         }`}
         data-key={dataKey}
       >

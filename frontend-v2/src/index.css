@@ -12,10 +12,10 @@
     );
   }
 
-  .selected {
+  .sidebar-selected {
     @apply bg-[#6ee7b777];
   }
-  .selected:hover {
+  .sidebar-selected:hover {
     @apply bg-[#6ee7b777] !important;
   }
 
@@ -62,14 +62,12 @@ body {
 }
 
 .selection-area {
-  z-index: 9999999999;
-  background: rgba(46, 115, 252, 0.11);
+  background: rgba(116, 126, 136, 0.31);
   border: 2px solid rgba(98, 155, 255, 0.81);
-  border-radius: 0.1em;
 }
 
-.selected::after {
+.user-selected::after {
   content: "";
   position: absolute;
-  @apply bottom-0 left-0 right-0 top-0 rounded-2xl bg-blue-800 bg-opacity-30;
+  @apply bottom-0 left-0 right-0 top-0 rounded-2xl bg-blue-800 bg-opacity-20;
 }

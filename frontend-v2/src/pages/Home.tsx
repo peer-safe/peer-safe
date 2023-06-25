@@ -26,10 +26,10 @@ const Home = ({ web3Auth }: { web3Auth: Web3Auth }) => {
       });
     };
 
-    if (matchMedia('(pointer:fine)').matches) {
+    if (matchMedia("(pointer:fine)").matches) {
       pageDiv.addEventListener("mousemove", moveEvent);
     }
-    
+
     return () => {
       pageDiv.removeEventListener("mousemove", moveEvent);
     };

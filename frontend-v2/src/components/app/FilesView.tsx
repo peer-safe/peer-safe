@@ -59,6 +59,7 @@ const deleteFileButton = async (
 };
 
 const FilesView = ({
+  setNumSelected,
   files,
   downloadFile,
   deleteFile,
@@ -66,6 +67,7 @@ const FilesView = ({
   populateFiles,
   unpinContent,
 }: {
+  setNumSelected: React.Dispatch<React.SetStateAction<number>>;
   files: MyFile[];
   downloadFile: (
     fileHash: string,
@@ -105,32 +107,36 @@ const FilesView = ({
     };
   }, []);
 
-  const beforeSelectionStart = ({ event, selection }: SelectionEvent) => {
+  useEffect(() => {
+    console.log("Selected", selected);
+    setNumSelected(selected.size);
+  }, [selected, setNumSelected]);
+
+  const extractIds = (els: Element[]): number[] =>
+    els
+      .map((v) => v.getAttribute("data-key"))
+      .filter(Boolean)
+      .map(Number);
+
+  const onStart = ({ event, selection }: SelectionEvent) => {
     if (!event?.ctrlKey && !event?.metaKey) {
+      selection.clearSelection();
       setSelected(() => new Set());
     }
   };
 
-  const extractIds = (els: Element[]): number[] =>
-    els
-      .map((v) => {
-        console.debug(v.getAttributeNames());
-        return v.getAttribute("data-key");
-      })
-      .filter(Boolean)
-      .map(Number);
-
-  const onSelectionMove = ({
+  const onMove = ({
     store: {
       changed: { added, removed },
     },
   }: SelectionEvent) => {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      extractIds(added).forEach((id) => next.add(id));
-      extractIds(removed).forEach((id) => next.delete(id));
-      return next;
-    });
+    if (added.length || removed.length)
+      setSelected((prev) => {
+        const next = new Set(prev);
+        extractIds(added).forEach((id) => next.add(id));
+        extractIds(removed).forEach((id) => next.delete(id));
+        return next;
+      });
   };
 
   if (!files.length) {
@@ -139,15 +145,15 @@ const FilesView = ({
 
   return (
     <SelectionArea
-      onMove={onSelectionMove}
-      onBeforeStart={beforeSelectionStart}
       selectables=".selectable"
       container=".selectionarea"
-      className="selectionarea sm:files-grid max-sm:files-grid-sm grid w-full flex-1 select-none gap-4"
+      onBeforeStart={onStart}
+      onMove={onMove}
+      className="selectionarea sm:files-grid max-sm:files-grid-sm -m-4 grid w-[calc(100%+2rem)] flex-1 select-none content-start gap-4 p-4"
       behaviour={{
         overlap: "keep",
         intersect: "touch",
-        startThreshold: 10,
+        startThreshold: 1,
         scrolling: {
           speedDivider: 10,
           manualSpeed: 750,

@@ -42,10 +42,10 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   }
 
   return (
-    <div className="relative min-w-[18rem] flex h-screen w-full gap-4 bg-black p-4 overflow-hidden">
+    <div className="relative flex h-screen w-full min-w-[18rem] gap-4 overflow-hidden bg-black p-4">
       <Sidebar web3Auth={web3Auth} />
       <div className="z-10 flex min-w-[340px] flex-1 flex-col overflow-y-scroll rounded-xl bg-[#101010] p-4">
-        <Navbar web3Auth={web3Auth}  userContext={userContext} />
+        <Navbar web3Auth={web3Auth} userContext={userContext} />
         {!userContext.vaultAddress.length ? (
           <span className="flex-1 self-center">
             Please wait while we create your vault

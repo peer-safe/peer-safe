@@ -39,7 +39,10 @@ const client = createClient({
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <WagmiConfig client={client}>
-      <Toaster toastOptions={toastOptions} />
+      <Toaster
+        containerClassName="toaster-container"
+        toastOptions={toastOptions}
+      />
       <App web3Auth={web3AuthInstance} />
     </WagmiConfig>
   </React.StrictMode>

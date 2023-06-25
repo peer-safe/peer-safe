@@ -1,6 +1,8 @@
 import { MouseEventHandler } from "react";
 
-export const singleMousePosSetter: MouseEventHandler<HTMLDivElement> = (event) => {
+export const singleMousePosSetter: MouseEventHandler<HTMLDivElement> = (
+  event
+) => {
   const { currentTarget: target } = event;
   if (!target) return;
   const rect = target.getBoundingClientRect(),

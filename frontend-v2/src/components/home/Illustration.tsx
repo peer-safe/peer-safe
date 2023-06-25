@@ -56,7 +56,8 @@ const Illustration = () => {
     const changeEncryption = () => {
       if (encryptionTimeout.current) clearTimeout(encryptionTimeout.current);
       let _styles = Array.from(encryptionStyles);
-      const svgTime = ((svgRef.current?.getCurrentTime() || 8.2)*1000) % 40000;
+      const svgTime =
+        ((svgRef.current?.getCurrentTime() || 8.2) * 1000) % 40000;
       const _changeIt = () => {
         const newStr = _styles.pop();
         if (!newStr) return;
@@ -87,7 +88,8 @@ const Illustration = () => {
     const changeDecryption = () => {
       if (decryptionTimeout.current) clearTimeout(decryptionTimeout.current);
       let _styles = Array.from(decryptionStyles);
-      const svgTime = ((svgRef.current?.getCurrentTime() || 28.2)*1000) % 40000;
+      const svgTime =
+        ((svgRef.current?.getCurrentTime() || 28.2) * 1000) % 40000;
       const _changeIt = () => {
         const newStr = _styles.pop();
         if (!newStr) return;

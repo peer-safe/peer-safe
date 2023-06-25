@@ -18,6 +18,7 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   const [files, setFiles] = useState<MyFile[]>([]);
   const provider = web3Auth.provider;
   const { userContext } = useContext(UserContext)!;
+  const [numSelected, setNumSelected] = useState(0);
 
   const populateFiles = useCallback(async () => {
     setLoadingFiles(true);
@@ -81,20 +82,16 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
           className={`select-none rounded-full px-3 py-2 transition-all ease-in-out ${
             uploadingFile
               ? "cursor-progress bg-none text-gray-600"
-              : "cursor-pointer bg-zinc-700 hover:bg-zinc-600 transition-all ease-in-out duration-300"
+              : "cursor-pointer bg-zinc-700 transition-all duration-300 ease-in-out hover:bg-zinc-600"
           }`}
         >
-          {uploadingFile
-            ? "uploading"
-            : file
-            ? file.name
-            : "Select file"}
+          {uploadingFile ? "uploading" : file ? file.name : "Select file"}
         </label>
         <button
           onClick={uploadFileWrapper}
           className={`disabled:text-gray-600 ${
             uploadingFile
-              ? "disabled:cursor-progress hidden"
+              ? "hidden disabled:cursor-progress"
               : "disabled:cursor-not-allowed"
           }`}
           disabled={file === null || uploadingFile}
@@ -106,22 +103,24 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   };
 
   return (
-    <div className="flex flex-1 flex-col gap-12">
-      <div className="flex flex-1 flex-col gap-6">
+    <div className="flex flex-1 flex-col gap-4">
+      <div className="flex items-center justify-between">
         <FileUploadForm />
-        {loadingFiles ? (
-          <>loading</>
-        ) : (
-          <FilesView
-            deleteFile={deleteFile}
-            downloadFile={downloadFile}
-            files={files}
-            provider={provider}
-            populateFiles={populateFiles}
-            unpinContent={unpinContent}
-          />
-        )}
+        <span>{numSelected ? `${numSelected} selected` : ""}</span>
       </div>
+      {loadingFiles ? (
+        <>loading</>
+      ) : (
+        <FilesView
+          setNumSelected={setNumSelected}
+          deleteFile={deleteFile}
+          downloadFile={downloadFile}
+          files={files}
+          provider={provider}
+          populateFiles={populateFiles}
+          unpinContent={unpinContent}
+        />
+      )}
     </div>
   );
 };

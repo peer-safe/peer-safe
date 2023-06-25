@@ -47,7 +47,7 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
       else {
         if (wasWagmiConnected) {
           toast.error("Session expired, please sign in again");
-          localStorage.setItem("wagmi.connected", "true")
+          localStorage.removeItem("wagmi.connected");
           setWasWagmiConnected(false);
         }
       }

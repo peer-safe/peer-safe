@@ -4,7 +4,8 @@ import { Web3Auth } from "@web3auth/modal";
 import { useLocation } from "@tanstack/react-location";
 import { useEffect } from "react";
 
-const buttonStyle = "pl-6 py-4 flex items-center gap-8 bg-zinc-700 rounded-xl hover:bg-zinc-600 transition-all ease-in-out duration-300";
+const buttonStyle =
+  "px-6 py-4 overflow-clip flex items-center gap-8 bg-zinc-700 rounded-xl hover:bg-zinc-600 transition-all ease-in-out duration-300";
 const URL_MAIN = "/app";
 const URL_SHARED = "/app/shared";
 
@@ -29,7 +30,12 @@ const Sidebar = ({ web3Auth }: { web3Auth: Web3Auth }) => {
       <div className="flex flex-col gap-4">
         <Link
           to={URL_MAIN}
-          className={buttonStyle + ([URL_MAIN, URL_MAIN+"/"].includes(url) ? " selected" : "")}
+          className={
+            buttonStyle +
+            ([URL_MAIN, URL_MAIN + "/"].includes(url)
+              ? " sidebar-selected"
+              : "")
+          }
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +50,12 @@ const Sidebar = ({ web3Auth }: { web3Auth: Web3Auth }) => {
         </Link>
         <Link
           to={URL_SHARED}
-          className={buttonStyle + ([URL_SHARED, URL_SHARED+"/"].includes(url) ? " selected" : "")}
+          className={
+            buttonStyle +
+            ([URL_SHARED, URL_SHARED + "/"].includes(url)
+              ? " sidebar-selected"
+              : "")
+          }
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
