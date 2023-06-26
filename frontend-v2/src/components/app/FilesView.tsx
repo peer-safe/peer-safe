@@ -108,7 +108,6 @@ const FilesView = ({
   }, []);
 
   useEffect(() => {
-    console.log("Selected", selected);
     setNumSelected(selected.size);
   }, [selected, setNumSelected]);
 
@@ -119,7 +118,14 @@ const FilesView = ({
       .map(Number);
 
   const onStart = ({ event, selection }: SelectionEvent) => {
-    if (!event?.ctrlKey && !event?.metaKey) {
+    try {
+      if (event instanceof TouchEvent) {
+        selection.clearSelection();
+        return selection.cancel();
+      }
+    } catch {}
+
+    if (!event?.ctrlKey && !event?.metaKey && !event?.shiftKey) {
       selection.clearSelection();
       setSelected(() => new Set());
     }
@@ -158,6 +164,14 @@ const FilesView = ({
           speedDivider: 10,
           manualSpeed: 750,
           startScrollMargins: { x: 0, y: 0 },
+        },
+      }}
+      features={{
+        touch: false,
+        range: true,
+        singleTap: {
+          allow: true,
+          intersect: "touch",
         },
       }}
     >

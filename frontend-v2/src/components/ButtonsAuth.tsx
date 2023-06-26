@@ -56,6 +56,7 @@ export const ButtonLogout = ({
       className={className || ""}
       onClick={async () => {
         setIsDisconnecting(true);
+        localStorage.removeItem("wagmi.connected");
         await disconnectAsync();
         setUserContext(null);
         setIsDisconnecting(false);

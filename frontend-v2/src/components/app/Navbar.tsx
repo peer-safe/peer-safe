@@ -2,6 +2,7 @@ import { type Web3Auth } from "@web3auth/modal";
 import { Link } from "@tanstack/react-location";
 import { useEffect, useRef, useState } from "react";
 import { UserContextTypeInner } from "../../utils/globalContext";
+import { ButtonLogout } from "../ButtonsAuth";
 
 const Navbar = ({
   web3Auth,
@@ -71,19 +72,10 @@ const Navbar = ({
           />
           <div
             className={`absolute right-0 top-14 flex min-w-[12rem] flex-col ${
-              userDetailsModalOpen ? "" : "hidden"
+              userDetailsModalOpen ? "fade-in-fast" : "hidden"
             }`}
             ref={userDetailsModalRef}
           >
-            <div
-              className={`ml-auto mr-4 h-0 w-0 border-x-8 border-b-8 border-[#212123] ${
-                userDetailsModalOpen ? "" : "hidden"
-              }`}
-              style={{
-                borderLeftColor: "transparent",
-                borderRightColor: "transparent",
-              }}
-            ></div>
             <div className="flex flex-col gap-2 rounded-xl bg-[#212123] p-4">
               <div className="max-w-xs break-words">
                 {userContext.userInfo.name}
@@ -114,6 +106,7 @@ const Navbar = ({
               >
                 {copiedAddrText ? "copied" : "copy account address"}
               </p>
+              <ButtonLogout className="text-sm text-zinc-500 underline text-left" web3Auth={web3Auth} />
             </div>
           </div>
         </div>

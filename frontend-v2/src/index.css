@@ -35,6 +35,9 @@ body {
 .fade-in {
   animation: fade-in 0.6s ease-in-out both;
 }
+.fade-in-fast {
+  animation: fade-in 0.2s ease-in-out both;
+}
 @keyframes fade-in {
   0% {
     opacity: 0;

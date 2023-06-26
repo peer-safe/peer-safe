@@ -5,7 +5,7 @@ import { useLocation } from "@tanstack/react-location";
 import { useEffect } from "react";
 
 const buttonStyle =
-  "px-6 py-4 overflow-clip flex items-center gap-8 bg-zinc-700 rounded-xl hover:bg-zinc-600 transition-all ease-in-out duration-300";
+  "px-4 py-4 overflow-clip flex items-center gap-4 bg-zinc-700 rounded-xl hover:bg-zinc-600 transition-all ease-in-out duration-300";
 const URL_MAIN = "/app";
 const URL_SHARED = "/app/shared";
 
@@ -14,7 +14,7 @@ const Sidebar = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   useEffect(() => console.log(url), [url]);
 
   return (
-    <div className="left-0 top-0 flex w-72 flex-col justify-between rounded-xl bg-[#212123] p-4 max-lg:hidden">
+    <div className="left-0 top-0 flex w-[17rem] flex-col justify-between rounded-xl bg-[#212123] p-4 max-lg:hidden">
       <div className={"flex items-center gap-2 pl-0"}>
         <Link to={"/"}>
           <img
