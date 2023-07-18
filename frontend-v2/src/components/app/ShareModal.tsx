@@ -10,11 +10,15 @@ export default ({
   setOpen,
   file,
   provider,
+  uploadAndEncryptKey,
+  downloadAndDecryptKey,
 }: {
   className?: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   file?: MyFile;
   provider: SafeEventEmitterProvider;
+  uploadAndEncryptKey: (keyObj: any, pubKey: string) => Promise<string>;
+  downloadAndDecryptKey: (keyHash: string) => Promise<any>;
 }) => {
   const [addressInput, setAddressInput] = useState("");
   const [isAddressValid, setIsAddressValid] = useState(false);
@@ -29,17 +33,21 @@ export default ({
     if (!file) return;
     setSendingReq(true);
     try {
-      const pubKey = await getPubKey(provider, addressInput);
-      console.debug("pubKey: ", pubKey);
-      // await sendShareRequest(
-      //   provider,
-      //   file._name,
-      //   file._ipfsHash,
-      //   file._fileType,
-      //   file._key,
-      //   addressInput as `0x${string}`
-      // );
-      // toast.success("Sent share request");
+      const pubKey = `${await getPubKey(provider, addressInput)}`.slice(2);
+      if (pubKey.length !== 128) throw new Error("pubKey length was not 128");
+      if (pubKey === "0".repeat(128)) throw new Error("pubKey was 0");
+      const decryptedKey = await downloadAndDecryptKey(file._key);
+      const encryptedKey = await uploadAndEncryptKey(decryptedKey, pubKey);
+
+      await sendShareRequest(
+        provider,
+        file._name,
+        file._ipfsHash,
+        file._fileType,
+        encryptedKey,
+        addressInput as `0x${string}`
+      );
+      toast.success("Sent share request");
     } catch (err) {
       console.error(err);
       toast.error("An error occurred");

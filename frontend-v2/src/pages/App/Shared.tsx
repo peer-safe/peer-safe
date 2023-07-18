@@ -26,10 +26,10 @@ const Shared = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   const populateFiles = useCallback(async () => {
     setLoadingFiles(true);
     try {
+      const _files = await getAllFiles(provider!);
+      console.log(_files);
       setFiles(
-        (await getAllFiles(provider!)).filter(
-          (file) => file._sharedBy !== ethers.constants.AddressZero
-        )
+        _files.filter((file) => file._sharedBy !== ethers.constants.AddressZero)
       );
     } catch (e) {
       console.error("Failed to get files", e);
@@ -41,7 +41,10 @@ const Shared = ({ web3Auth }: { web3Auth: Web3Auth }) => {
 
   const populateShareRequests = useCallback(async () => {
     const requests = await getShareRequests(provider!);
-    setShareRequests(requests);
+    console.debug("Get shared requests", requests);
+    setShareRequests(
+      requests.filter((file) => file._from !== ethers.constants.AddressZero)
+    );
   }, [provider]);
 
   useEffect(() => {
@@ -68,6 +71,7 @@ const Shared = ({ web3Auth }: { web3Auth: Web3Auth }) => {
               ? "cursor-pointer bg-[#6ee7b777] hover:bg-[#59e6ad77]"
               : "cursor-not-allowed bg-none px-0 py-0 text-gray-600"
           }`}
+          onClick={() => setIsRequestModalOpen(true)}
         >
           {shareRequests.length} new requests
         </button>

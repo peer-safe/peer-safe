@@ -4,7 +4,7 @@ import type { SafeEventEmitterProvider } from "@web3auth/base";
 import axios from "axios";
 
 const API_URL = "https://relayer.peersafe.tech/";
-const CONTRACT_ADDRESS = "0x9392D65c1F7aC3C500593fa376B484Ea52463aE9";
+const CONTRACT_ADDRESS = "0x1824A0E6D4B63452bB10Fc1D9beA7D9611F5cac2";
 
 export type MyFile = {
   _fileType: string;
@@ -58,9 +58,16 @@ export const getAllFiles = async (provider: SafeEventEmitterProvider) => {
 };
 
 export const getShareRequests = async (provider: SafeEventEmitterProvider) => {
-  const { contract } = await signMessage(provider, "i want my share reqs");
-  const requests: ShareRequest[] = await contract.getShareRequests();
-  console.debug("Requests:", requests);
+  const { contract, messageHashBytes, v, r, s } = await signMessage(
+    provider,
+    "i want my share reqs"
+  );
+  const requests: ShareRequest[] = await contract.getShareRequests(
+    messageHashBytes,
+    v,
+    r,
+    s
+  );
   return requests;
 };
 
@@ -101,7 +108,7 @@ export const sendShareRequest = async (
 
 export const acceptShareRequest = async (
   provider: SafeEventEmitterProvider,
-  fileHash: string
+  ipfsHash: string
 ) => {
   const { messageHash, v, r, s } = await signMessage(
     provider,
@@ -113,7 +120,7 @@ export const acceptShareRequest = async (
     r,
     s,
     v,
-    fileHash,
+    ipfsHash,
   };
   await axios.post(API_URL, body, {
     timeout: 24000,
@@ -122,7 +129,7 @@ export const acceptShareRequest = async (
 
 export const rejectShareRequest = async (
   provider: SafeEventEmitterProvider,
-  fileHash: string
+  ipfsHash: string
 ) => {
   const { messageHash, v, r, s } = await signMessage(
     provider,
@@ -134,7 +141,7 @@ export const rejectShareRequest = async (
     r,
     s,
     v,
-    fileHash,
+    ipfsHash,
   };
   await axios.post(API_URL, body, {
     timeout: 24000,

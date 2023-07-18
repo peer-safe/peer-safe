@@ -17,6 +17,15 @@ const toastOptions = {
       color: "#efefef",
     },
   },
+  success: {
+    duration: 2200,
+    className: "z-80",
+    style: {
+      background: "#202C30",
+      border: "1px solid green",
+      color: "#efefef",
+    },
+  },
 };
 
 // Configure chains & providers with the Public provider.

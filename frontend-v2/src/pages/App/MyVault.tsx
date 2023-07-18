@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { Web3Auth } from "@web3auth/modal";
 import { useFileHandler } from "../../hooks/useFileHandler";
 import ShareModal from "../../components/app/ShareModal";
+import { ethers } from "ethers";
 
 const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   const [loadingFiles, setLoadingFiles] = useState(true);
@@ -26,7 +27,10 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   const populateFiles = useCallback(async () => {
     setLoadingFiles(true);
     try {
-      setFiles(await getAllFiles(provider!));
+      const _files = await getAllFiles(provider!);
+      setFiles(
+        _files.filter((file) => file._sharedBy === ethers.constants.AddressZero)
+      );
     } catch (e) {
       console.error("Failed to get files", e);
       toast.error("Failed to get files,  try again later");
@@ -40,8 +44,15 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { file, handleFileChange, uploadFile, downloadFile, unpinContent } =
-    useFileHandler(userContext!.privateKey);
+  const {
+    file,
+    handleFileChange,
+    uploadFile,
+    downloadFile,
+    unpinContent,
+    uploadAndEncryptKey,
+    downloadAndDecryptKey,
+  } = useFileHandler(userContext!.privateKey);
 
   if (!userContext || !provider) {
     console.error("This should not be possible:", userContext, provider);
@@ -131,6 +142,8 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
           setOpen={setIsShareModalOpen}
           file={fileToShare}
           provider={provider}
+          uploadAndEncryptKey={uploadAndEncryptKey}
+          downloadAndDecryptKey={downloadAndDecryptKey}
         />
       ) : (
         <></>

@@ -18,12 +18,14 @@ const RequestListItem = ({
   fileHash,
   setShareRequests,
   provider,
+  setOpen,
 }: {
   name: string;
   from: string;
   fileHash: string;
   setShareRequests: React.Dispatch<React.SetStateAction<ShareRequest[]>>;
   provider: SafeEventEmitterProvider;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
     <div className="flex items-center justify-between">
@@ -31,13 +33,15 @@ const RequestListItem = ({
         <span>{name}</span>
         <span className="text-xs text-zinc-500">{from}</span>
       </div>
-      <div className="flex gap-2 p-2">
+      <div className="flex items-center gap-2 py-2">
         <button
-          className="bg-emerald-600 p-2 transition-colors duration-300 ease-in-out hover:bg-emerald-700"
+          className="rounded-lg bg-emerald-600 px-2 py-1 transition-colors duration-300 ease-in-out hover:bg-emerald-700"
           onClick={async () => {
-            setShareRequests((prev) =>
-              prev.filter((val) => val._fileHash !== fileHash)
-            );
+            setShareRequests((prev) => {
+              const then = prev.filter((val) => val._fileHash !== fileHash);
+              if (!then.length) setOpen(false);
+              return then;
+            });
             try {
               await acceptShareRequest(provider, fileHash);
               toast.success("Accepted");
@@ -49,7 +53,24 @@ const RequestListItem = ({
         >
           Accept
         </button>
-        <button className="bg-red-600 p-2 transition-colors duration-300 ease-in-out hover:bg-red-700">
+        <button
+          className="rounded-lg bg-red-600 px-2 py-1 transition-colors duration-300 ease-in-out hover:bg-red-700"
+          onClick={async () => {
+            {
+              setShareRequests((prev) => {
+                const then = prev.filter((val) => val._fileHash !== fileHash);
+                if (!then.length) setOpen(false);
+                return then;
+              });
+              try {
+                await rejectShareRequest(provider, fileHash);
+              } catch (err) {
+                console.error(err);
+                toast.error("Error rejecting request");
+              }
+            }
+          }}
+        >
           Reject
         </button>
       </div>
@@ -110,6 +131,7 @@ export default ({
               setShareRequests={setShareRequests}
               provider={provider}
               key={index}
+              setOpen={setOpen}
             />
           ))}
         </div>

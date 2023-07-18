@@ -7,6 +7,12 @@ const CryptoJS = require("crypto-js");
 const projectId = process.env.REACT_APP_IPFS_PROJECT_ID!;
 const projectSecret = process.env.REACT_APP_IPFS_PROJECT_SECRET!;
 
+export async function encryptKeyObjectFromPubKey(pubKey: string, key: string) {
+  const encrypted = await EthCrypto.encryptWithPublicKey(pubKey, key);
+  const encryptedString = EthCrypto.cipher.stringify(encrypted);
+  return encryptedString;
+}
+
 function useFileHandler(privateKey: string) {
   const [file, setFile] = useState<File | null>(null);
   const infuraURL = "https://ipfs.infura.io:5001";
@@ -79,9 +85,7 @@ function useFileHandler(privateKey: string) {
     return { encryptedFileHash, encryptedKeyObjHash, fileName, mimeType };
   };
 
-  async function downloadAndDecryptKey(
-    keyHash: string
-  ) { 
+  async function downloadAndDecryptKey(keyHash: string) {
     if (!privateKey) {
       console.log("privateKey not found");
       throw new Error("privateKey not found");
@@ -105,12 +109,12 @@ function useFileHandler(privateKey: string) {
     }
   }
 
-  async function uploadAndEncryptKey(
-    keyObj: any,
-    pubKey: string
-  ) { 
+  async function uploadAndEncryptKey(keyObj: any, pubKey: string) {
     const keyObjectString = JSON.stringify(keyObj);
-    const encryptedKeyObj = await encryptKeyObjectFromPubKey(pubKey, keyObjectString);
+    const encryptedKeyObj = await encryptKeyObjectFromPubKey(
+      pubKey,
+      keyObjectString
+    );
     const encryptedKeyObjAdded = await ipfsClient.add(encryptedKeyObj);
     const encryptedKeyObjHash = encryptedKeyObjAdded.path;
     console.log("encryptedKeyObjHash", encryptedKeyObjHash);
@@ -214,12 +218,6 @@ function useFileHandler(privateKey: string) {
     });
   }
 
-  async function encryptKeyObjectFromPubKey(pubKey: string, key: string) {
-    const encrypted = await EthCrypto.encryptWithPublicKey(pubKey, key);
-    const encryptedString = EthCrypto.cipher.stringify(encrypted);
-    return encryptedString;
-  }
-
   async function encryptKeyObj(privKey: string, key: string) {
     const pubKey = EthCrypto.publicKeyByPrivateKey(privKey);
     const encrypted = await EthCrypto.encryptWithPublicKey(pubKey, key);
@@ -267,7 +265,15 @@ function useFileHandler(privateKey: string) {
     });
   }
 
-  return { file, handleFileChange, uploadFile, downloadFile, unpinContent };
+  return {
+    file,
+    handleFileChange,
+    uploadFile,
+    downloadFile,
+    unpinContent,
+    downloadAndDecryptKey,
+    uploadAndEncryptKey,
+  };
 }
 
 export { useFileHandler };
