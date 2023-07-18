@@ -79,6 +79,53 @@ function useFileHandler(privateKey: string) {
     return { encryptedFileHash, encryptedKeyObjHash, fileName, mimeType };
   };
 
+  async function downloadAndDecryptKey(
+    keyHash: string
+  ) { 
+    if (!privateKey) {
+      console.log("privateKey not found");
+      throw new Error("privateKey not found");
+    }
+    if (privateKey === "") {
+      console.log("privateKey not found");
+      throw new Error("privateKey not found");
+    }
+    try {
+      const enc_key_data = await ipfsClient.cat(keyHash);
+      let enc_key: any = [];
+      for await (const chunk of enc_key_data) enc_key.push(chunk);
+      enc_key = Buffer.concat(enc_key);
+      const enc_key_string = enc_key.toString();
+      const keyObj = await decryptKeyObj(privateKey, enc_key_string);
+      return keyObj;
+    } catch (error) {
+      console.log("error while decrypting key");
+      console.log(error);
+      throw new Error("error while decrypting key");
+    }
+  }
+
+  async function uploadAndEncryptKey(
+    keyObj: any,
+    pubKey: string
+  ) { 
+    const keyObjectString = JSON.stringify(keyObj);
+    const encryptedKeyObj = await encryptKeyObjectFromPubKey(pubKey, keyObjectString);
+    const encryptedKeyObjAdded = await ipfsClient.add(encryptedKeyObj);
+    const encryptedKeyObjHash = encryptedKeyObjAdded.path;
+    console.log("encryptedKeyObjHash", encryptedKeyObjHash);
+
+    // PIN TO IPFS
+    try {
+      await ipfsClient.pin.add(encryptedKeyObjHash);
+    } catch (e) {
+      console.log("error pinning to ipfs", e);
+      // TODO: show error to user that file is unstable,
+      // and the user might wanna delete and try uploading again
+    }
+    return encryptedKeyObjHash;
+  }
+
   async function downloadFile(
     fileHash: string,
     keyHash: string,
@@ -165,6 +212,12 @@ function useFileHandler(privateKey: string) {
       reader.onerror = reject;
       reader.readAsText(blob);
     });
+  }
+
+  async function encryptKeyObjectFromPubKey(pubKey: string, key: string) {
+    const encrypted = await EthCrypto.encryptWithPublicKey(pubKey, key);
+    const encryptedString = EthCrypto.cipher.stringify(encrypted);
+    return encryptedString;
   }
 
   async function encryptKeyObj(privKey: string, key: string) {
