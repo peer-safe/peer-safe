@@ -21,7 +21,7 @@ import { LOGIN_MODAL_EVENTS } from "@web3auth/ui";
 import { appLogin } from "./components/ButtonsAuth";
 import FullScreenLoading from "./pages/FullScreenLoading";
 import { useConnect } from "wagmi";
-import SharedWithMe from "./pages/App/SharedWithMe";
+import Shared from "./pages/App/Shared";
 
 const location = new ReactLocation();
 
@@ -92,7 +92,7 @@ const App = ({ web3Auth }: { web3Auth: Web3Auth }) => {
           children: [
             {
               path: "/shared",
-              element: <SharedWithMe web3Auth={web3Auth} />,
+              element: <Shared web3Auth={web3Auth} />,
             },
             {
               path: "/",

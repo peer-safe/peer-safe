@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { Bytes, Contract, ethers, providers } from "ethers";
 import abi from "../utils/abi";
 import type { SafeEventEmitterProvider } from "@web3auth/base";
 import axios from "axios";
@@ -11,6 +11,15 @@ export type MyFile = {
   _ipfsHash: string;
   _key: string;
   _name: string;
+  _sharedBy: `0x${string}`;
+};
+
+export type ShareRequest = {
+  _from: `0x${string}`;
+  _fileHash: string;
+  _keyHash: string;
+  _name: string;
+  _fileType: string;
 };
 
 const signMessage = async (
@@ -46,6 +55,90 @@ export const getAllFiles = async (provider: SafeEventEmitterProvider) => {
   );
   const files: MyFile[] = await contract.getAllFiles(messageHashBytes, v, r, s);
   return files;
+};
+
+export const getShareRequests = async (provider: SafeEventEmitterProvider) => {
+  const { contract } = await signMessage(provider, "i want my share reqs");
+  const requests: ShareRequest[] = await contract.getShareRequests();
+  console.debug("Requests:", requests);
+  return requests;
+};
+
+export const getPubKey = async (
+  provider: SafeEventEmitterProvider,
+  address: string
+) => {
+  const { contract } = await signMessage(provider, "gib pub key");
+  const pubKey: Bytes = await contract.getPubKey(address);
+  return pubKey;
+};
+
+export const sendShareRequest = async (
+  provider: SafeEventEmitterProvider,
+  name: string,
+  ipfsHash: string,
+  fileType: string,
+  keyHash: string,
+  to: `0x${string}`
+) => {
+  const { messageHash, v, r, s } = await signMessage(provider, "i share");
+  const body = {
+    action: "sendShareRequest",
+    messageHash,
+    r,
+    s,
+    v,
+    to,
+    name,
+    fileType,
+    ipfsHash,
+    key: keyHash,
+  };
+  await axios.post(API_URL, body, {
+    timeout: 24000,
+  });
+};
+
+export const acceptShareRequest = async (
+  provider: SafeEventEmitterProvider,
+  fileHash: string
+) => {
+  const { messageHash, v, r, s } = await signMessage(
+    provider,
+    "i accept share"
+  );
+  const body = {
+    action: "acceptShareRequest",
+    messageHash,
+    r,
+    s,
+    v,
+    fileHash,
+  };
+  await axios.post(API_URL, body, {
+    timeout: 24000,
+  });
+};
+
+export const rejectShareRequest = async (
+  provider: SafeEventEmitterProvider,
+  fileHash: string
+) => {
+  const { messageHash, v, r, s } = await signMessage(
+    provider,
+    "i reject share"
+  );
+  const body = {
+    action: "rejectShareRequest",
+    messageHash,
+    r,
+    s,
+    v,
+    fileHash,
+  };
+  await axios.post(API_URL, body, {
+    timeout: 24000,
+  });
 };
 
 export const deleteFile = async (

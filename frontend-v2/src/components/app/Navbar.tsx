@@ -106,7 +106,10 @@ const Navbar = ({
               >
                 {copiedAddrText ? "copied" : "copy account address"}
               </p>
-              <ButtonLogout className="text-sm text-zinc-500 underline text-left" web3Auth={web3Auth} />
+              <ButtonLogout
+                className="text-left text-sm text-zinc-500 underline"
+                web3Auth={web3Auth}
+              />
             </div>
           </div>
         </div>

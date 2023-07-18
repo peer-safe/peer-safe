@@ -11,6 +11,7 @@ import { Navigate } from "@tanstack/react-location";
 import toast from "react-hot-toast";
 import { Web3Auth } from "@web3auth/modal";
 import { useFileHandler } from "../../hooks/useFileHandler";
+import ShareModal from "../../components/app/ShareModal";
 
 const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   const [loadingFiles, setLoadingFiles] = useState(true);
@@ -19,6 +20,8 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
   const provider = web3Auth.provider;
   const { userContext } = useContext(UserContext)!;
   const [numSelected, setNumSelected] = useState(0);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [fileToShare, setFileToShare] = useState<MyFile>();
 
   const populateFiles = useCallback(async () => {
     setLoadingFiles(true);
@@ -26,7 +29,7 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
       setFiles(await getAllFiles(provider!));
     } catch (e) {
       console.error("Failed to get files", e);
-      toast.error("Failed to fetch files");
+      toast.error("Failed to get files,  try again later");
     } finally {
       setLoadingFiles(false);
     }
@@ -115,11 +118,22 @@ const MyVault = ({ web3Auth }: { web3Auth: Web3Auth }) => {
           setNumSelected={setNumSelected}
           deleteFile={deleteFile}
           downloadFile={downloadFile}
+          setIsShareModalOpen={setIsShareModalOpen}
+          setFileToShare={setFileToShare}
           files={files}
           provider={provider}
           populateFiles={populateFiles}
           unpinContent={unpinContent}
         />
+      )}
+      {isShareModalOpen ? (
+        <ShareModal
+          setOpen={setIsShareModalOpen}
+          file={fileToShare}
+          provider={provider}
+        />
+      ) : (
+        <></>
       )}
     </div>
   );
