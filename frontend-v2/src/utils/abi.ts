@@ -210,6 +210,11 @@ const abi = [
             "internalType": "string",
             "name": "_key",
             "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "_sharedBy",
+            "type": "address"
           }
         ],
         "internalType": "struct File[]",
