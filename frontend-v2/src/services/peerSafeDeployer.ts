@@ -4,7 +4,7 @@ import type { SafeEventEmitterProvider } from "@web3auth/base";
 import axios from "axios";
 
 const API_URL = "https://relayer.peersafe.tech/";
-const CONTRACT_ADDRESS = "0xfa9d329fc427F7CA64D18fa61283d1Ffb93e463D";
+const CONTRACT_ADDRESS = "0x9392D65c1F7aC3C500593fa376B484Ea52463aE9";
 
 export type MyFile = {
   _fileType: string;
