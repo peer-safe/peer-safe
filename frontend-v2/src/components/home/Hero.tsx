@@ -1,9 +1,5 @@
 import { Web3Auth } from "@web3auth/modal";
 import BaseButton from "../BaseButton";
-import { ButtonLogin } from "../ButtonsAuth";
-import { useContext } from "react";
-import { UserContext } from "../../utils/globalContext";
-import { Link, useNavigate } from "@tanstack/react-location";
 import Illustration from "./Illustration";
 import { singleMousePosSetter } from "../../utils/mousePosSetter";
 
@@ -17,8 +13,7 @@ const Hero = ({
   howItWorksRef: React.RefObject<HTMLDivElement>;
   web3Auth: Web3Auth;
 }) => {
-  const { userContext } = useContext(UserContext)!;
-  const navigate = useNavigate();
+
   return (
     <div className="relative flex h-[calc(100vh-8rem)] flex-col py-12">
       <Illustration />
@@ -33,37 +28,27 @@ const Hero = ({
         </span>
         {/* Buttons container */}
         <div className="flex gap-4">
-          {userContext ? (
-            <Link to="/app">
-              <BaseButton className={heroButtonStyle}>My vault</BaseButton>
-            </Link>
-          ) : (
-            <div
-              onMouseMove={
-                matchMedia("(pointer:fine)").matches
-                  ? singleMousePosSetter
-                  : undefined
-              }
-              className="hover:border-glow rounded-full p-[1px]"
-            >
-              <ButtonLogin
-                className={heroButtonStyle}
-                web3Auth={web3Auth}
-                onSuccess={() => navigate({ to: "/app" })}
-              >
-                <>
-                  Let's start
-                  <img
-                    src={require("../../assets/right-arrow.svg").default}
-                    alt="rightarrow"
-                    height="18px"
-                    width="18px"
-                  />
-                </>
-              </ButtonLogin>
-            </div>
-          )}
-          <div className={userContext ? "" : "p-[1px]"}>
+          <div
+            onMouseMove={
+              matchMedia("(pointer:fine)").matches
+                ? singleMousePosSetter
+                : undefined
+            }
+            className="hover:border-glow rounded-full p-[1px]"
+          >
+            <BaseButton className={heroButtonStyle}>
+              <>
+                Let's start
+                <img
+                  src={require("../../assets/right-arrow.svg").default}
+                  alt="rightarrow"
+                  height="18px"
+                  width="18px"
+                />
+              </>
+            </BaseButton>
+          </div>
+          <div className="p-[1px]">
             <BaseButton
               className={heroButtonStyle}
               onClick={() => {
