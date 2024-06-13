@@ -6,8 +6,11 @@ import Illustration from "~/components/Illustration";
 import { Button, buttonVariants } from "~/components/ui/button";
 import MaxWidth from "~/components/ui/max-width";
 import { cn } from "~/lib/utils";
+import { useAccount } from "wagmi";
 
 export default function HomePage() {
+  const { isConnected } = useAccount();
+
   return (
     <main>
       <MaxWidth>
@@ -31,7 +34,7 @@ export default function HomePage() {
                     buttonVariants({ variant: "outline" }),
                     "flex items-center gap-2 py-6",
                   )}
-                  href="/vault"
+                  href={isConnected ? "/vault" : "/login"}
                 >
                   Launch app
                   <ArrowUpRightFromSquare className="h-5 w-5" />
