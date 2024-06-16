@@ -71,6 +71,6 @@
     @apply border-border text-foreground;
   }
   body {
-    @apply bg-background;
+    @apply flex min-h-screen flex-col bg-background;
   }
 }

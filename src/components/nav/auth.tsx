@@ -1,8 +1,11 @@
 "use client";
 
 import { useAccount, useDisconnect, useConnect } from "wagmi";
-import { Button } from "~/components/ui/button";
+import { Button, buttonVariants } from "~/components/ui/button";
 import { Spinner } from "../ui/spinner";
+import { cn } from "~/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Auth() {
   const { isConnected } = useAccount();
@@ -20,21 +23,19 @@ export default function Auth() {
 }
 
 const SignIn = () => {
-  const { connect, connectors } = useConnect();
   const { isConnecting } = useAccount();
+  const pathname = usePathname();
+  if (pathname.startsWith("/login")) return null;
   return (
-    <Button
-      onClick={() => {
-        connect({ connector: connectors[0]! });
-      }}
-      disabled={isConnecting}
-      className="flex gap-2"
+    <Link
+      href={"/login"}
+      className={cn("flex gap-2", buttonVariants({ variant: "default" }))}
     >
       {isConnecting ? "" : "Login"}
       {isConnecting ? (
         <Spinner color="hsl(var(--muted))" className="h-5 w-5" />
       ) : null}
-    </Button>
+    </Link>
   );
 };
 
