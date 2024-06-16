@@ -4,7 +4,6 @@ import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
 import Providers from "~/components/Providers";
 import { headers } from "next/headers";
-import Navbar from "~/components/nav/navbar";
 import { Toaster } from "~/components/ui/sonner";
 
 export const metadata = {
@@ -19,6 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const cookie = headers().get("cookie");
+
   return (
     <html
       lang="en"

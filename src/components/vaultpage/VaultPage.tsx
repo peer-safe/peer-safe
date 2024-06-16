@@ -14,7 +14,7 @@ export default function VaultPage() {
   });
   const { isConnected } = useAccount()
 
-  if (!isConnected) return redirect("/");
+  // if (!isConnected) return redirect("/");
 
   return (
     <div className="flex items-center justify-center gap-4 py-8">

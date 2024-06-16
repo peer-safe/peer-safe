@@ -44,7 +44,7 @@ export function Spinner({
   color,
 }: SpinnerContentProps) {
   return (
-    <span className={spinnerVariants({ show })}>
+    <span className={cn(spinnerVariants({ show }), className)}>
       <Loader2
         className={cn(loaderVariants({ size }), className)}
         color={color}

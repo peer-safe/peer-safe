@@ -10,21 +10,23 @@ const Navbar = () => {
   return (
     <nav className="sticky inset-x-0 top-0 z-50 h-16 w-full border-b bg-background/75 backdrop-blur-lg transition-all">
       <MaxWidth className="h-full flex-row items-center justify-between">
-        <div className="flex items-center gap-4 self-stretch">
-          <Link href="/" className="flex gap-4 text-lg font-semibold">
-            <Image
-              src="/logo192.png"
-              height={32}
-              width={32}
-              className="object-contain"
-              alt="logo"
-            />
-            <span className="hidden sm:block">Peersafe</span>
-          </Link>
+        <Link
+          href="/"
+          className="flex items-center gap-4 self-stretch text-lg font-semibold"
+        >
+          <Image
+            src="/logo192.png"
+            height={32}
+            width={32}
+            className="object-contain"
+            alt="logo"
+          />
+          <span className="hidden sm:block">Peersafe</span>
+        </Link>
+        <div className="flex items-center gap-4 ">
           <ThemeToggle />
+          <Auth />
         </div>
-
-        <Auth />
       </MaxWidth>
     </nav>
   );

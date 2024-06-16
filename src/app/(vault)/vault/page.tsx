@@ -5,6 +5,7 @@ import { serverOnly } from "~/server/queries";
 export default async function Chat() {
   // fetch server-side data
   await serverOnly();
+  
   return (
     <main>
       <MaxWidth>

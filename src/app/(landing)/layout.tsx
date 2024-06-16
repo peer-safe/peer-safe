@@ -29,6 +29,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" disableTransitionOnChange>
           <Providers cookie={cookie}>
             <Toaster />
+            <Navbar />
             {children}
           </Providers>
         </ThemeProvider>
