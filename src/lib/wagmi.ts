@@ -7,13 +7,32 @@ import { type Chain } from "wagmi/chains";
 import { webSocket, createConfig, createStorage, cookieStorage } from "wagmi";
 import { polygonAmoy } from "wagmi/chains";
 
+type LOGIN_PROVIDERS =
+  | "google"
+  | "facebook"
+  | "reddit"
+  | "discord"
+  | "twitch"
+  | "apple"
+  | "line"
+  | "github"
+  | "kakao"
+  | "linkedin"
+  | "twitter"
+  | "weibo"
+  | "wechat"
+  | "email_passwordless"
+  | "sms_passwordless"
+  | "jwt";
+
 const name = "Peersafe";
 const iconUrl = "/logo192.png"; // change this
 
 const clientId = process.env.NEXT_PUBLIC_WEB3_AUTH_CLIENT_ID!;
 
-function Web3AuthConnectorInstance(chains: Chain[]) {
+function Web3AuthConnectorInstance(chains: Chain[], provider: LOGIN_PROVIDERS) {
   if (!chains[0]) throw new Error("No chain provided");
+
   const chainConfig = {
     chainNamespace: CHAIN_NAMESPACES.EIP155,
     chainId: "0x" + chains[0].id.toString(16),
@@ -24,6 +43,7 @@ function Web3AuthConnectorInstance(chains: Chain[]) {
     ticker: chains[0].nativeCurrency?.symbol,
     blockExplorerUrl: chains[0].blockExplorers?.default.url[0],
   };
+
   const privateKeyProvider = new EthereumPrivateKeyProvider({
     config: { chainConfig },
   });
@@ -48,20 +68,33 @@ function Web3AuthConnectorInstance(chains: Chain[]) {
       },
     },
   });
+
   web3AuthInstance.configureAdapter(openloginAdapterInstance);
+
   return Web3AuthConnector({
     web3AuthInstance,
     loginParams: {
-      loginProvider: "google",
+      loginProvider: provider,
     },
   });
 }
 
-const web3AuthConnector = Web3AuthConnectorInstance([polygonAmoy]);
+const googleConnector = Web3AuthConnectorInstance([polygonAmoy], "google");
+const githubConnector = Web3AuthConnectorInstance([polygonAmoy], "github");
+const discordConnector = Web3AuthConnectorInstance([polygonAmoy], "discord");
+const emailConnector = Web3AuthConnectorInstance(
+  [polygonAmoy],
+  "email_passwordless",
+);
 
 export const wagmiConfig = createConfig({
   chains: [polygonAmoy],
-  connectors: [web3AuthConnector],
+  connectors: [
+    googleConnector,
+    githubConnector,
+    discordConnector,
+    emailConnector,
+  ],
   transports: {
     [polygonAmoy.id]: webSocket(), // put alchemy websocket url here
   },
