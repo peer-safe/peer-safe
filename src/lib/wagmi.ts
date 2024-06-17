@@ -5,7 +5,7 @@ import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { CHAIN_NAMESPACES, UX_MODE, WEB3AUTH_NETWORK } from "@web3auth/base";
 import { type Chain } from "wagmi/chains";
 import { webSocket, createConfig, createStorage, cookieStorage } from "wagmi";
-import { polygonAmoy } from "wagmi/chains";
+import { baseSepolia } from "wagmi/chains";
 
 type LOGIN_PROVIDERS =
   | "google"
@@ -30,7 +30,10 @@ const iconUrl = "/logo192.png"; // change this
 
 const clientId = process.env.NEXT_PUBLIC_WEB3_AUTH_CLIENT_ID!;
 
-function Web3AuthConnectorInstance(chains: Chain[], provider: LOGIN_PROVIDERS) {
+function Web3AuthConnectorInstances(
+  chains: Chain[],
+  providers: LOGIN_PROVIDERS[],
+) {
   if (!chains[0]) throw new Error("No chain provided");
 
   const chainConfig = {
@@ -57,7 +60,7 @@ function Web3AuthConnectorInstance(chains: Chain[], provider: LOGIN_PROVIDERS) {
   // Add openlogin adapter for customizations
   const openloginAdapterInstance = new OpenloginAdapter({
     adapterSettings: {
-      network: "cyan",
+      network: "sapphire_devnet",
       uxMode: UX_MODE.REDIRECT,
       whiteLabel: {
         appName: name,
@@ -71,32 +74,32 @@ function Web3AuthConnectorInstance(chains: Chain[], provider: LOGIN_PROVIDERS) {
 
   web3AuthInstance.configureAdapter(openloginAdapterInstance);
 
-  return Web3AuthConnector({
-    web3AuthInstance,
-    loginParams: {
-      loginProvider: provider,
-    },
-  });
+  return providers.map((provider) =>
+    Web3AuthConnector({
+      web3AuthInstance,
+      loginParams: {
+        loginProvider: provider,
+      },
+    }),
+  );
 }
 
-const googleConnector = Web3AuthConnectorInstance([polygonAmoy], "google");
-const githubConnector = Web3AuthConnectorInstance([polygonAmoy], "github");
-const discordConnector = Web3AuthConnectorInstance([polygonAmoy], "discord");
-const emailConnector = Web3AuthConnectorInstance(
-  [polygonAmoy],
-  "email_passwordless",
+export const connectorNames: LOGIN_PROVIDERS[] = [
+  "google",
+  "github",
+  "discord",
+];
+
+const web3authConnectors = Web3AuthConnectorInstances(
+  [baseSepolia],
+  connectorNames,
 );
 
 export const wagmiConfig = createConfig({
-  chains: [polygonAmoy],
-  connectors: [
-    googleConnector,
-    githubConnector,
-    discordConnector,
-    emailConnector,
-  ],
+  chains: [baseSepolia],
+  connectors: web3authConnectors,
   transports: {
-    [polygonAmoy.id]: webSocket(), // put alchemy websocket url here
+    [baseSepolia.id]: webSocket(), // put alchemy websocket url here
   },
   ssr: true,
   storage: createStorage({

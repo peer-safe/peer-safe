@@ -19,6 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const cookie = headers().get("cookie");
+
   return (
     <html
       lang="en"
