@@ -1,40 +1,19 @@
-import "~/styles/globals.css";
-
-import { GeistSans } from "geist/font/sans";
-import { ThemeProvider } from "next-themes";
-import Providers from "~/components/Providers";
-import { headers } from "next/headers";
-import { Toaster } from "~/components/ui/sonner";
 import BottomNav from "~/components/nav/bottom";
 
 export const metadata = {
-  title: "Peersafe",
-  description: "Secure decentralized file storage from the future.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  title: "Peersafe - Vault",
+  description: "Your vault. Login to view.",
 };
 
-export default function RootLayout({
+export default function VaultLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const cookie = headers().get("cookie");
-
   return (
-    <html
-      lang="en"
-      className={`${GeistSans.variable}`}
-      suppressHydrationWarning
-    >
-      <body>
-        <ThemeProvider attribute="class" disableTransitionOnChange>
-          <Providers cookie={cookie}>
-            <Toaster />
-            {children}
-            <BottomNav />
-          </Providers>
-        </ThemeProvider>
-      </body>
-    </html>
+    <>
+      {children}
+      <BottomNav />
+    </>
   );
 }
