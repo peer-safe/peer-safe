@@ -19,7 +19,7 @@ function ProviderLoginButton({
   connector: Connector;
   children: React.ReactNode;
 }) {
-  const { connect } = useConnect();
+  const { connect, isPending } = useConnect();
   const { isConnecting } = useAccount();
 
   return (
@@ -29,9 +29,9 @@ function ProviderLoginButton({
       onClick={() => {
         connect({ connector });
       }}
-      disabled={isConnecting}
+      disabled={isConnecting || isPending}
     >
-      {isConnecting ? (
+      {isConnecting || isPending ? (
         <Spinner color="hsl(var(--foreground))" className="h-5 w-5" />
       ) : (
         children
@@ -48,7 +48,7 @@ const icons: Record<string, FC> = {
 };
 
 export default function LoginPage() {
-  const { connectors } = useConnect();
+  const { connectors, isPending } = useConnect();
   const { status, isConnecting } = useAccount();
 
   const [email, setEmail] = useState("");
@@ -85,13 +85,14 @@ export default function LoginPage() {
         className="w-full max-w-96"
         disabled={
           isConnecting ||
+          isPending ||
           !/^[a-zA-Z0-9\._\+-]+@([a-zA-Z0-9\-]+\.){1,}([a-zA-Z]{2,16})$/.test(
             email,
           )
         }
         onClick={() => connect({ connector: emailConnectors[0]! })}
       >
-        {isConnecting ? (
+        {isConnecting || isPending ? (
           <Spinner color="hsl(var(--background))" className="h-5 w-5" />
         ) : (
           <>Continue with Email &rarr;</>
