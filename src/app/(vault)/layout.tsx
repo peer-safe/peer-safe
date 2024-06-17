@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import Providers from "~/components/Providers";
 import { headers } from "next/headers";
 import { Toaster } from "~/components/ui/sonner";
+import BottomNav from "~/components/nav/bottom";
 
 export const metadata = {
   title: "Peersafe",
@@ -30,6 +31,7 @@ export default function RootLayout({
           <Providers cookie={cookie}>
             <Toaster />
             {children}
+            <BottomNav />
           </Providers>
         </ThemeProvider>
       </body>
