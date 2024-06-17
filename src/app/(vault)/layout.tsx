@@ -1,4 +1,6 @@
-import BottomNav from "~/components/nav/bottom";
+import Protected from "~/components/Protected";
+import BottomNav from "~/components/nav/vault/bottom";
+import SideNav from "~/components/nav/vault/side";
 
 export const metadata = {
   title: "Peersafe - Vault",
@@ -11,9 +13,12 @@ export default function VaultLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      {children}
-      <BottomNav />
-    </>
+    <Protected>
+      <div className="flex h-screen flex-col md:flex-row">
+        <SideNav />
+        <div className="flex-1 flex-col overflow-y-auto">{children}</div>
+        <BottomNav />
+      </div>
+    </Protected>
   );
 }

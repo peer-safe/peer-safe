@@ -1,16 +1,16 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Home from "../icons/home";
-import Settings from "../icons/settings";
-import Users from "../icons/users";
+import Home from "~/components/icons/home";
+import Settings from "~/components/icons/settings";
+import Users from "~/components/icons/users";
 import Link from "next/link";
 
 const BottomNav = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 flex h-16 w-full items-center justify-around border-t bg-background/75 sm:hidden">
+    <nav className="flex h-16 w-full items-center justify-around border-t bg-background/75 md:hidden">
       <Link href="/vault">
         <Home className={pathname === "/vault" ? "" : "stroke-foreground/60"} />
       </Link>

@@ -2,7 +2,7 @@
 
 import { useAccount, useDisconnect } from "wagmi";
 import { Button, buttonVariants } from "~/components/ui/button";
-import { Spinner } from "../ui/spinner";
+import { Spinner } from "../../ui/spinner";
 import { cn } from "~/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
