@@ -9,24 +9,20 @@ import { usePathname } from "next/navigation";
 
 export default function Auth() {
   const { isConnected } = useAccount();
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/login")) return null;
 
   return (
     <div className="flex h-full items-center gap-4">
-      {isConnected ? (
-        <>
-          <SignOut />
-        </>
-      ) : (
-        <SignIn />
-      )}
+      {isConnected ? <SignOut /> : <SignIn />}
     </div>
   );
 }
 
 const SignIn = () => {
   const { isConnecting } = useAccount();
-  const pathname = usePathname();
-  if (pathname.startsWith("/login")) return null;
+
   return (
     <Link
       href={"/login"}
@@ -44,13 +40,5 @@ const SignIn = () => {
 const SignOut = () => {
   const { disconnect } = useDisconnect();
 
-  return (
-    <Button
-      onClick={() => {
-        disconnect();
-      }}
-    >
-      Logout
-    </Button>
-  );
+  return <Button onClick={() => disconnect()}>Logout</Button>;
 };
