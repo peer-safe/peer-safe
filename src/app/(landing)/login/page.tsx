@@ -9,6 +9,7 @@ import Github from "~/components/icons/github";
 import Google from "~/components/icons/google";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { Separator } from "~/components/ui/separator";
 import { Spinner } from "~/components/ui/spinner";
 import { emailWagmiConfig, socialProviders } from "~/lib/wagmi";
 
@@ -74,6 +75,29 @@ export default function LoginPage() {
             </ProviderLoginButton>
           ) : null;
         })}
+      </div>
+      <div className="flex w-96 items-center gap-2 text-muted-foreground">
+        <Separator />
+        or
+        <Separator />
+      </div>
+      <Button
+        className="w-full max-w-96"
+        onClick={() => {
+          connect({ connector: connectors[connectors.length - 1]! });
+        }}
+        disabled={isConnecting || isPending}
+      >
+        {isConnecting || isPending ? (
+          <Spinner color="hsl(var(--background))" className="h-5 w-5" />
+        ) : (
+          <>Continue with Coinbase &rarr;</>
+        )}
+      </Button>
+      <div className="flex w-96 items-center gap-2 text-muted-foreground">
+        <Separator />
+        or
+        <Separator />
       </div>
       <Input
         placeholder="you@yourdomain.xyz"

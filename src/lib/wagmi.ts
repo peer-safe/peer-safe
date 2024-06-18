@@ -1,12 +1,17 @@
-import { Web3AuthConnector } from "@web3auth/web3auth-wagmi-connector";
-import { Web3AuthNoModal } from "@web3auth/no-modal";
-import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
-import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { CHAIN_NAMESPACES, UX_MODE, WEB3AUTH_NETWORK } from "@web3auth/base";
-import { type Chain } from "wagmi/chains";
-import { type CreateConfigParameters } from "wagmi";
-import { webSocket, createConfig, createStorage, cookieStorage } from "wagmi";
-import { baseSepolia } from "wagmi/chains";
+import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
+import { Web3AuthNoModal } from "@web3auth/no-modal";
+import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
+import { Web3AuthConnector } from "@web3auth/web3auth-wagmi-connector";
+import {
+  cookieStorage,
+  createConfig,
+  createStorage,
+  webSocket,
+  type CreateConfigParameters,
+} from "wagmi";
+import { baseSepolia, type Chain } from "wagmi/chains";
+import { coinbaseWallet } from "wagmi/connectors";
 
 type LOGIN_PROVIDERS =
   | "google"
@@ -97,7 +102,10 @@ const commonConfig: CreateConfigParameters<
   Record<number, ReturnType<typeof webSocket>>
 > = {
   chains: [baseSepolia],
-  connectors: socialConnectors,
+  connectors: [
+    ...socialConnectors,
+    coinbaseWallet({ appName: name, preference: "smartWalletOnly" }),
+  ],
   transports: {
     [baseSepolia.id]: webSocket(), // put alchemy websocket url here
   },
