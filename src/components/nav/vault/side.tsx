@@ -10,6 +10,7 @@ import { Resizable } from "re-resizable";
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
 import { useDisconnect } from "wagmi";
+import { PlusIcon } from "lucide-react";
 
 const NavItem = ({
   href,
@@ -47,7 +48,7 @@ const SideNav = () => {
       <nav className="flex h-full w-full flex-col gap-4 p-4">
         <Link
           href="/vault"
-          className="flex items-center gap-4 self-stretch text-lg font-semibold"
+          className="flex h-12 items-center gap-4 self-stretch text-lg font-semibold"
         >
           <Image
             src="/logo192.png"
@@ -58,7 +59,11 @@ const SideNav = () => {
           />
           <span>Peersafe</span>
         </Link>
-        <div className="py-4" />
+        <div className="py-2" />
+        <Button className="flex items-center justify-start gap-2">
+          <PlusIcon color="hsl(var(--primary-foreground))" /> New
+        </Button>
+        <div className="py-2" />
         <NavItem href="/vault/my-vault">
           <Home />
           My vault

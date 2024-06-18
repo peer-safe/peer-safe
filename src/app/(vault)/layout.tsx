@@ -1,6 +1,7 @@
 import Protected from "~/components/Protected";
 import BottomNav from "~/components/nav/vault/bottom";
 import SideNav from "~/components/nav/vault/side";
+import TopBar from "~/components/nav/vault/top";
 
 export const metadata = {
   title: "Peersafe - Vault",
@@ -16,7 +17,10 @@ export default function VaultLayout({
     <Protected>
       <div className="flex h-screen flex-col md:flex-row">
         <SideNav />
-        <div className="flex-1 flex-col overflow-y-auto">{children}</div>
+        <div className="flex flex-1 flex-col">
+          <TopBar />
+          <div className="flex flex-1 flex-col overflow-y-auto">{children}</div>
+        </div>
         <BottomNav />
       </div>
     </Protected>
