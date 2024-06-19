@@ -143,7 +143,7 @@ const Illustration = () => {
         clearTimeout(decryptionTimeout);
       }
     };
-  }, [svgRef, encryptionTimeout, decryptionTimeout]);
+  }, []);
 
   return (
     <div className="absolute bottom-4 left-0 right-0 top-4 flex items-center justify-center max-sm:-top-8 max-sm:bottom-8 sm:justify-end">
