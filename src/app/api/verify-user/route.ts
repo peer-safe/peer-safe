@@ -3,12 +3,7 @@ import { z } from "zod";
 import { type NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { env } from "~/env";
-import type { JWK } from "~/app/api/jwk/types";
-
-const jwk = (await import(
-  `~/app/api/jwk/${env.NODE_ENV === "production" ? "jwk.json" : "example.jwk.json"}`
-)) as JWK;
-
+import jwk from "~/app/api/jwk/jwk.json";
 export const dynamic = "force-dynamic";
 
 const privateKey = env.PRIVATE_KEY;
