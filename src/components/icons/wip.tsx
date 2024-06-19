@@ -11,8 +11,8 @@ const WorkInProgress = (props: SVGProps<SVGSVGElement>) => (
     viewBox="0 0 64000 64000"
     x="0px"
     y="0px"
-    fill-rule="evenodd"
-    clip-rule="evenodd"
+    fillRule="evenodd"
+    clipRule="evenodd"
     {...props}
   >
     <g color="currentColor">

@@ -44,7 +44,3 @@ yarn-error.log*
 
 # nix-shell
 shell.nix
-<<<<<<< HEAD
-=======
-
->>>>>>> 58b69a9 (updated the routes to handle prod.privatKey)
