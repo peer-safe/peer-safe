@@ -1,10 +1,9 @@
 {
-		"kty": "RSA",
-		"n": "1EfplclCx614tyMH4pD-kKo7GPMQdJmDAmKlVkg-0hqLSDPMEOfNdWVQgkkAlucNc5IyCnvKlxf5kX0wi06FP5rEaIyeTkdLFenPAl_fYwVMMrb4tR5RKIv2eP6pUgCiIwB9QFjxTO8ezwnEnHGc3dH4G07QUGfj-LBl-24Y6J5bMPplZRBxgLt54Ryzp1zrRa0WCqr3F6pgEBd6ShuTI-DmVJP9Xf4MiZEKUJHVLiRBbrptd7V9tgUBycFnbUK1HSGUr3gwhW8PETus1ZAdFePGgGljPaMqIMfKEHzob52ZknVDafqNeKwCrQ0_oZgwp0OLbX1xN4DKfDhmE_tmXw",
-		"e": "AQAB",
-		"ext": true,
-		"kid": process.env.KEYID,
-		"alg": "RS256",
-		"use": "sig"
-	}
-
+  "kty": "RSA",
+  "n": "unLniCa9xRcC6y6S2mD8LIcOanFoFMYYDf3NWll8Iu_5RBAmP7sk4mFH4MVic9zYfbgMpZoN8XJYSYh10sRYcO6iQ972yDZskCfXDM52iR5FSdylX1STo-jUx8qPVtSdQKxAEdfOQBOJIJ9qh7iFZTudkF-UEB63aKGzVoP5nf6GEr47KLVJ-7njTTlzRdk4D9eh0Rf1a6XEHPd0FXs1rk0gT5fGycRavPzyAH08gbADht8DeOz-UbTMwH2PHKJ6a4yYBisWdIlFGVAmc2lijm_k5z1lI8VmCcAXcak8l2ZY_mAQHl_rMEPZS4_vFgyuMyRZQHlCU1pfasjgsNY9EQ",
+  "e": "AQAB",
+  "ext": true,
+  "kid": "cc039096dbd5f1c0d81c8c68009ee",
+  "alg": "RS256",
+  "use": "sig"
+}

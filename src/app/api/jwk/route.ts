@@ -1,6 +1,10 @@
-import * as jwk from "./jwk.json";
-// import * as jwk from ".jwk.json";
+import type { JWK } from "~/app/api/jwk/types";
+import { env } from "~/env";
 
-export async function GET(request: Request) {
-	return Response.json(jwk);
+const jwk = (await import(
+  `~/app/api/jwk/${env.NODE_ENV === "production" ? "jwk.json" : "example.jwk.json"}`
+)) as JWK;
+
+export async function GET() {
+  return Response.json(jwk);
 }
