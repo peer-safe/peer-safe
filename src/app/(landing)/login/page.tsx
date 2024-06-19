@@ -1,62 +1,62 @@
 "use client";
 
-import { QuestionMarkIcon } from "@radix-ui/react-icons";
+// import { QuestionMarkIcon } from "@radix-ui/react-icons";
+// import Discord from "~/components/icons/discord";
+// import Github from "~/components/icons/github";
+// import Google from "~/components/icons/google";
+// import { Input } from "~/components/ui/input";
+// import { Separator } from "~/components/ui/separator";
+// import { useState, type FC } from "react";
 import { redirect } from "next/navigation";
-import { useState, type FC } from "react";
-import { type Connector, useAccount, useConnect } from "wagmi";
-import Discord from "~/components/icons/discord";
-import Github from "~/components/icons/github";
-import Google from "~/components/icons/google";
+import { useAccount, useConnect } from "wagmi";
 import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Separator } from "~/components/ui/separator";
 import { Spinner } from "~/components/ui/spinner";
-import { emailWagmiConfig, socialProviders } from "~/lib/wagmi";
+// import { emailWagmiConfig, socialProviders } from "~/lib/wagmi";
 
-function ProviderLoginButton({
-  connector,
-  children,
-}: {
-  connector: Connector;
-  children: React.ReactNode;
-}) {
-  const { connect, isPending } = useConnect();
-  const { isConnecting } = useAccount();
+// function ProviderLoginButton({
+//   connector,
+//   children,
+// }: {
+//   connector: Connector;
+//   children: React.ReactNode;
+// }) {
+//   const { connect, isPending } = useConnect();
+//   const { isConnecting } = useAccount();
 
-  return (
-    <Button
-      variant={"outline"}
-      className="w-full"
-      onClick={() => {
-        connect({ connector });
-      }}
-      disabled={isConnecting || isPending}
-    >
-      {isConnecting || isPending ? (
-        <Spinner color="hsl(var(--foreground))" className="h-5 w-5" />
-      ) : (
-        children
-      )}
-    </Button>
-  );
-}
+//   return (
+//     <Button
+//       variant={"outline"}
+//       className="w-full"
+//       onClick={() => {
+//         connect({ connector });
+//       }}
+//       disabled={isConnecting || isPending}
+//     >
+//       {isConnecting || isPending ? (
+//         <Spinner color="hsl(var(--foreground))" className="h-5 w-5" />
+//       ) : (
+//         children
+//       )}
+//     </Button>
+//   );
+// }
 
-const icons: Record<string, FC> = {
-  google: Google,
-  github: Github,
-  discord: Discord,
-  default: QuestionMarkIcon,
-};
+// const icons: Record<string, FC> = {
+//   google: Google,
+//   github: Github,
+//   discord: Discord,
+//   default: QuestionMarkIcon,
+// };
 
 export default function LoginPage() {
-  const { connectors, isPending } = useConnect();
+  const { connect, connectors, isPending } = useConnect();
   const { status, isConnecting } = useAccount();
 
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
 
-  const { connect, connectors: emailConnectors } = useConnect({
-    config: emailWagmiConfig(email),
-  });
+  // const { connect, connectors: emailConnectors } = useConnect({
+  //   config: emailWagmiConfig(email),
+  // });
 
   if (status === "connected") redirect("/");
 
@@ -64,7 +64,7 @@ export default function LoginPage() {
     <main className="flex w-full grow flex-col items-center justify-center gap-6 px-10 py-24">
       <div className="text-3xl font-semibold">Welcome back</div>
       <div className="-mt-6 text-gray-500">Choose how you want to proceed</div>
-      <div className="flex w-full max-w-96 items-center gap-4">
+      {/* <div className="flex w-full max-w-96 items-center gap-4">
         {connectors.map((connector, index) => {
           const Icon: FC<{ width: number; height: number }> =
             icons[socialProviders[index] ?? "default"]!;
@@ -75,12 +75,12 @@ export default function LoginPage() {
             </ProviderLoginButton>
           ) : null;
         })}
-      </div>
-      <div className="flex w-96 items-center gap-2 text-muted-foreground">
+      </div> */}
+      {/* <div className="flex w-96 items-center gap-2 text-muted-foreground">
         <Separator />
         or
         <Separator />
-      </div>
+      </div> */}
       <Button
         className="w-full max-w-96"
         onClick={() => {
@@ -94,7 +94,7 @@ export default function LoginPage() {
           <>Continue with Coinbase &rarr;</>
         )}
       </Button>
-      <div className="flex w-96 items-center gap-2 text-muted-foreground">
+      {/* <div className="flex w-96 items-center gap-2 text-muted-foreground">
         <Separator />
         or
         <Separator />
@@ -121,7 +121,7 @@ export default function LoginPage() {
         ) : (
           <>Continue with Email &rarr;</>
         )}
-      </Button>
+      </Button> */}
     </main>
   );
 }
