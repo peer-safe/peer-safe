@@ -2,7 +2,7 @@ import * as React from "react";
 import type { SVGProps } from "react";
 import { cn } from "~/lib/utils";
 
-const Users = ({ className, ...props }: SVGProps<SVGSVGElement>) => (
+const User = ({ className, ...props }: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -20,4 +20,4 @@ const Users = ({ className, ...props }: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export default Users;
+export default User;

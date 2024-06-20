@@ -4,7 +4,9 @@ import { redirect } from "next/navigation";
 import { useAccount } from "wagmi";
 
 export default function Protected({ children }: { children: React.ReactNode }) {
-  const { isConnected } = useAccount();
-  if (!isConnected) return redirect("/");
+  const { address } = useAccount();
+
+  if (!address) return redirect("/");
+
   return children;
 }

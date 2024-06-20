@@ -4,13 +4,14 @@ import { usePathname } from "next/navigation";
 import Home from "~/components/icons/home";
 import Settings from "~/components/icons/settings";
 import Users from "~/components/icons/users";
+import Plus from "~/components/icons/plus";
 import Link from "next/link";
 import Image from "next/image";
 import { Resizable } from "re-resizable";
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
 import { useDisconnect } from "wagmi";
-import { PlusIcon } from "lucide-react";
+import Logout from "~/components/icons/logout";
 
 const NavItem = ({
   href,
@@ -25,7 +26,7 @@ const NavItem = ({
     <Link
       href={href}
       className={cn(
-        "flex items-center gap-2 rounded-md p-2",
+        "flex items-center gap-2 rounded-md p-2 transition duration-200 ease-in-out hover:bg-secondary",
         pathname === href ? "bg-secondary" : "",
       )}
     >
@@ -45,7 +46,7 @@ const SideNav = () => {
       enable={{ right: true }}
       className="hidden border-r md:flex"
     >
-      <nav className="flex h-full w-full flex-col gap-4 p-4">
+      <nav className="flex h-full w-full flex-col gap-1 p-4">
         <Link
           href="/vault"
           className="flex h-12 items-center gap-4 self-stretch text-lg font-semibold"
@@ -59,26 +60,27 @@ const SideNav = () => {
           />
           <span>Peersafe</span>
         </Link>
-        <div className="py-2" />
-        <Button className="flex items-center justify-start gap-2">
-          <PlusIcon color="hsl(var(--primary-foreground))" /> New
+        <Button className="my-3">
+          <span className="flex items-center">
+            <Plus className="h-5 w-5" color="hsl(var(--primary-foreground))" />
+            &nbsp;&nbsp;New
+          </span>
         </Button>
-        <div className="py-2" />
         <NavItem href="/vault/my-vault">
-          <Home />
-          My vault
+          <Home className="h-5 w-5" />
+          My Vault
         </NavItem>
         <NavItem href="/vault/requests">
-          <Users />
+          <Users className="h-5 w-5" />
           Requests
         </NavItem>
         <NavItem href="/vault/settings">
-          <Settings />
+          <Settings className="h-5 w-5" />
           Settings
         </NavItem>
-        <div className="flex-1" />
-        <Button onClick={() => disconnect()} variant="outline">
-          Logout
+        <div className="grow" />
+        <Button onClick={() => disconnect()} variant="outline" size="icon">
+          <Logout className="h-5 w-5" />
         </Button>
       </nav>
     </Resizable>
