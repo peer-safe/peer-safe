@@ -17,8 +17,13 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
+import { useDisconnect } from "wagmi";
+import { useRouter } from "next/router";
 
 const TopBar = () => {
+  const { disconnect } = useDisconnect();
+  const router = useRouter();
+
   return (
     <div className="flex h-20 items-center justify-between gap-4 p-4">
       <div className="relative w-full">
@@ -42,29 +47,59 @@ const TopBar = () => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push("/vault/profile")}>
+                Profile
+              </DropdownMenuItem>
               <DropdownMenuItem>Add</DropdownMenuItem>
               <DropdownMenuItem>Storage</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push("/vault/settings")}>
+                Settings
+              </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>Requests</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push("/vault/requests")}>
+                Requests
+              </DropdownMenuItem>
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>Share</DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
                   <DropdownMenuSubContent>
-                    <DropdownMenuItem>Email</DropdownMenuItem>
-                    <DropdownMenuItem>Copy to Clipboard</DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          "I just tried PeerSafe and its so cool! Try it for yourself at https://localhost:3000",
+                        )
+                      }
+                    >
+                      Email
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          "I just tried PeerSafe and its so cool! Try it for yourself at https://localhost:3000",
+                        )
+                      }
+                    >
+                      Copy to Clipboard
+                    </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuPortal>
               </DropdownMenuSub>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>GitHub</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                (window.location.href = "https://github.com/peer-safe")
+              }
+            >
+              GitHub
+            </DropdownMenuItem>
             <DropdownMenuItem disabled>Pricing</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Log out</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => disconnect()}>
+              Log out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
