@@ -21,14 +21,17 @@ import {
 const TopBar = () => {
   return (
     <div className="flex h-20 items-center justify-between gap-4 p-4">
-      <div className="relative">
-        <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 stroke-muted-foreground" />
-        <Input className="max-w-96 pl-8" placeholder="Search everything..." />
+      <div className="relative w-full">
+        <Search className="absolute left-2 top-1/2 h-8 w-8 -translate-y-1/2 cursor-pointer rounded-full stroke-muted-foreground p-1.5 hover:bg-muted" />
+        <Input
+          className="h-12 w-full max-w-[32rem] pl-12"
+          placeholder="Search everything..."
+        />
       </div>
       <div className="flex h-full items-center rounded-full">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar className="h-10 w-10 cursor-pointer border">
+            <Avatar className="h-12 w-12 cursor-pointer border p-1">
               <AvatarImage alt="profile" src="/logo192.png" />
               <AvatarFallback>
                 <User />
