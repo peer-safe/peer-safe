@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { useDisconnect } from "wagmi";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const TopBar = () => {
   const { disconnect } = useDisconnect();
