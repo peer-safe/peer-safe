@@ -27,9 +27,9 @@ const TopBar = () => {
   return (
     <div className="flex h-20 items-center justify-between gap-4 p-4">
       <div className="relative w-full">
-        <Search className="absolute left-2 top-1/2 h-8 w-8 -translate-y-1/2 cursor-pointer rounded-full stroke-muted-foreground p-1.5 hover:bg-muted" />
+        <Search className=" absolute left-2 top-1/2 h-8 w-8 -translate-y-1/2 cursor-pointer rounded-full stroke-muted-foreground p-1.5 transition-colors hover:bg-muted" />
         <Input
-          className="h-12 w-full max-w-[32rem] pl-12"
+          className="h-10 w-full max-w-[32rem] pl-12"
           placeholder="Search everything..."
         />
       </div>
