@@ -76,11 +76,11 @@ function FolderGridNode({
 
 function FileGridNode({
   filename,
-  mimetype,
+  // mimetype,
   size,
 }: {
   filename: string;
-  mimetype: string;
+  // mimetype: string;
   size: number;
 }) {
   return (
@@ -118,11 +118,11 @@ function FolderListNode({
 
 function FileListNode({
   filename,
-  mimetype,
+  // mimetype,
   size,
 }: {
   filename: string;
-  mimetype: string;
+  // mimetype: string;
   size: number;
 }) {
   return (
@@ -162,23 +162,21 @@ export default function MyVaultPage() {
       </div>
       <h3 className="text-lg text-muted-foreground">Folders</h3>
       <NodeContainerView isGridView={isGridView}>
-        {/* change to list based on selected view */}
-        {mockFolders.map((folder) =>
+        {mockFolders.map((folder, ind) =>
           isGridView ? (
-            <FolderGridNode {...folder} />
+            <FolderGridNode {...folder} key={ind} />
           ) : (
-            <FolderListNode {...folder} />
+            <FolderListNode {...folder} key={ind} />
           ),
         )}
       </NodeContainerView>
       <h3 className="text-lg text-muted-foreground">Files</h3>
       <NodeContainerView isGridView={isGridView}>
-        {/* change to list based on selected view */}
-        {mockFiles.map((folder) =>
+        {mockFiles.map((file, ind) =>
           isGridView ? (
-            <FileGridNode {...folder} />
+            <FileGridNode {...file} key={ind} />
           ) : (
-            <FileListNode {...folder} />
+            <FileListNode {...file} key={ind} />
           ),
         )}
       </NodeContainerView>
