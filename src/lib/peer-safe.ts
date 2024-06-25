@@ -10,7 +10,7 @@ import {
   hexToNumber,
 } from "viem";
 import { baseSepolia } from "viem/chains";
-import { abi } from "./abi";
+import { abi } from "./peerSafeDeployerAbi";
 import assert from "assert";
 
 const CONTRACT_ADDRESS = "0x4FFDE33f6bca791adca8D5194eC8C2934D251f54";
