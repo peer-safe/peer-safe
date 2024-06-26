@@ -56,3 +56,8 @@ export async function signMesssage(message: string) {
 
   return { contract, messageHash, messageHashBytes, v, r, s };
 }
+
+export async function getAddy() {
+  const userAddy = await getAddress();
+  return { userAddy, contract };
+}
