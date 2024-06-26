@@ -52,42 +52,40 @@ export const publicClient = createPublicClient({
   ),
 });
 
-const simpleAccount = await privateKeyToSimpleSmartAccount(publicClient, {
-  privateKey: generatePrivateKey(),
-  factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454",
-  entryPoint: ENTRYPOINT_ADDRESS_V06,
-});
-
 const cloudPaymater = createPimlicoPaymasterClient({
   chain: baseSepolia,
   transport: http(RPC_URL),
   entryPoint: ENTRYPOINT_ADDRESS_V06,
 });
 
-const smartAccountClient = createSmartAccountClient({
-  account: simpleAccount,
-  chain: baseSepolia,
-  bundlerTransport: http(RPC_URL),
-  middleware: {
-    sponsorUserOperation: cloudPaymater.sponsorUserOperation,
-  },
-});
-
-export const contract = getContract({
-  address: CONTRACT_ADDRESS,
-  abi,
-  // client: { public: publicClient, wallet: walletClient },
-  client: smartAccountClient,
-});
-
-export function getAddress() {
-  const address = smartAccountClient.account.address;
-  assert(address, "Address is undefined");
-  return address;
+async function getClient() {
+  const simpleAccount = await privateKeyToSimpleSmartAccount(publicClient, {
+    privateKey: generatePrivateKey(),
+    factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454",
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
+  });
+  const smartAccountClient = createSmartAccountClient({
+    account: simpleAccount,
+    chain: baseSepolia,
+    bundlerTransport: http(RPC_URL),
+    middleware: {
+      sponsorUserOperation: cloudPaymater.sponsorUserOperation,
+    },
+  });
+  return smartAccountClient;
 }
 
 export async function signMesssage(message: string) {
-  const address = getAddress();
+  const smartAccountClient = await getClient();
+
+  const contract = getContract({
+    address: CONTRACT_ADDRESS,
+    abi,
+    // client: { public: publicClient, wallet: walletClient },
+    client: smartAccountClient,
+  });
+  const address = smartAccountClient.account.address;
+  assert(address, "Address is undefined");
 
   toFunctionSelector("function ownerOf(uint256 tokenId)");
   const messageHash = keccak256(toHex(message));
@@ -101,10 +99,17 @@ export async function signMesssage(message: string) {
   const { r, s } = parseSignature(sig);
   const v = hexToNumber(`0x${sig.slice(130)}`);
 
-  return { contract, messageHash, messageHashBytes, v, r, s };
+  return { contract, messageHash, messageHashBytes, v, r, s, address };
 }
 
-export function getAddy() {
-  const userAddy = getAddress();
-  return { userAddy, contract };
+export async function getAddress() {
+  const smartAccountClient = await getClient();
+  const address = smartAccountClient.account.address;
+  const contract = getContract({
+    address: CONTRACT_ADDRESS,
+    abi,
+    // client: { public: publicClient, wallet: walletClient },
+    client: smartAccountClient,
+  });
+  return { address, contract };
 }

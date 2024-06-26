@@ -1,4 +1,4 @@
-import { signMesssage, getAddy, getAddress } from "~/lib/peer-safe";
+import { signMesssage, getAddress } from "~/lib/peer-safe";
 import axios from "axios";
 import { type Address } from "viem";
 import { baseSepolia } from "viem/chains";
@@ -20,7 +20,7 @@ export async function getAllFiles() {
 }
 
 export async function deleteFile(ipfsHash: string) {
-  const { contract, messageHash, v, r, s } = await signMesssage("i delete");
+  const { messageHash, v, r, s } = await signMesssage("i delete");
   const body = {
     action: "deleteFile",
     messageHash,
@@ -37,9 +37,9 @@ export async function deleteFile(ipfsHash: string) {
 }
 
 export async function getVaultAddress() {
-  const { userAddy, contract } = getAddy();
+  const { address, contract } = await getAddress();
   try {
-    const vaultAddress: string = await contract.read.getVault([userAddy]);
+    const vaultAddress: string = await contract.read.getVault([address]);
     return vaultAddress;
   } catch (_error) {
     console.log("vault not deployed yet");
@@ -49,7 +49,7 @@ export async function getVaultAddress() {
 export async function deployContract() {
   const { contract, messageHash, v, r, s } =
     await signMesssage("i deploy contract");
-  const address = getAddress();
+  const { address } = await getAddress();
   const hash = await contract.write.deploy([address, messageHash, v, r, s], {
     account: address,
     chain: baseSepolia,
