@@ -1,6 +1,6 @@
 import { signMesssage, getAddy } from "~/lib/peer-safe";
 import axios from "axios";
-import { Address } from "viem";
+import { type Address } from "viem";
 
 const API_URL = "https://relayer.peersafe.tech/";
 // export type MyFile = {
