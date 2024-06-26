@@ -1,7 +1,5 @@
 import {
   getContract,
-  createWalletClient,
-  custom,
   toFunctionSelector,
   keccak256,
   toHex,
@@ -10,36 +8,42 @@ import {
   hexToNumber,
   createPublicClient,
   http,
-  type WalletClient,
 } from "viem";
 import { baseSepolia } from "viem/chains";
 import { abi } from "./peerSafeDeployerAbi";
 import assert from "assert";
+import {
+  createSmartAccountClient,
+  ENTRYPOINT_ADDRESS_V06,
+} from "permissionless";
+import { privateKeyToSimpleSmartAccount } from "permissionless/accounts";
+import { createPimlicoPaymasterClient } from "permissionless/clients/pimlico";
+import { generatePrivateKey } from "viem/accounts";
 
 const CONTRACT_ADDRESS = "0x4FFDE33f6bca791adca8D5194eC8C2934D251f54";
+const RPC_URL =
+  "https://api.developer.coinbase.com/rpc/v1/base-sepolia/NfZpgyPZbiQsPtBSEdZKa8rjBfxGtqyu";
 
-let walletClient: WalletClient;
+// let walletClient: WalletClient;
 
-if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
-  // we are in the browser and metamask is running
-  // window.ethereum.request({ method: "eth_requestAccounts" });
-  // web3 = new Web3(window.ethereum);
-  walletClient = createWalletClient({
-    chain: baseSepolia,
-    transport: custom(window.ethereum),
-  });
-} else {
-  // we are on the server *OR* the user is not running metamask
-  // https://medium.com/jelly-market/how-to-get-infura-api-key-e7d552dd396f
-  // const provider = new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/xxx_your_key_here_xxx");
-  // web3 = new Web3(provider);
-  walletClient = createWalletClient({
-    chain: baseSepolia,
-    transport: http(
-      "https://api.developer.coinbase.com/rpc/v1/base-sepolia/NfZpgyPZbiQsPtBSEdZKa8rjBfxGtqyu",
-    ),
-  });
-}
+// if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
+//   // we are in the browser and metamask is running
+//   // window.ethereum.request({ method: "eth_requestAccounts" });
+//   // web3 = new Web3(window.ethereum);
+//   walletClient = createWalletClient({
+//     chain: baseSepolia,
+//     transport: custom(window.ethereum),
+//   });
+// } else {
+//   // we are on the server *OR* the user is not running metamask
+//   // https://medium.com/jelly-market/how-to-get-infura-api-key-e7d552dd396f
+//   // const provider = new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/xxx_your_key_here_xxx");
+//   // web3 = new Web3(provider);
+//   walletClient = createWalletClient({
+//     chain: baseSepolia,
+//     transport: http(RPC_URL),
+//   });
+// }
 
 export const publicClient = createPublicClient({
   chain: baseSepolia,
@@ -48,26 +52,48 @@ export const publicClient = createPublicClient({
   ),
 });
 
+const simpleAccount = await privateKeyToSimpleSmartAccount(publicClient, {
+  privateKey: generatePrivateKey(),
+  factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454",
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+});
+
+const cloudPaymater = createPimlicoPaymasterClient({
+  chain: baseSepolia,
+  transport: http(RPC_URL),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+});
+
+const smartAccountClient = createSmartAccountClient({
+  account: simpleAccount,
+  chain: baseSepolia,
+  bundlerTransport: http(RPC_URL),
+  middleware: {
+    sponsorUserOperation: cloudPaymater.sponsorUserOperation,
+  },
+});
+
 export const contract = getContract({
   address: CONTRACT_ADDRESS,
   abi,
-  client: { public: publicClient, wallet: walletClient },
+  // client: { public: publicClient, wallet: walletClient },
+  client: smartAccountClient,
 });
 
-export async function getAddress() {
-  const [address] = await walletClient.getAddresses();
+export function getAddress() {
+  const address = smartAccountClient.account.address;
   assert(address, "Address is undefined");
   return address;
 }
 
 export async function signMesssage(message: string) {
-  const address = await getAddress();
+  const address = getAddress();
 
   toFunctionSelector("function ownerOf(uint256 tokenId)");
   const messageHash = keccak256(toHex(message));
   const messageHashBytes = toBytes(messageHash);
 
-  const sig = await walletClient.signMessage({
+  const sig = await smartAccountClient.signMessage({
     account: address,
     message: messageHash,
   });
@@ -78,7 +104,7 @@ export async function signMesssage(message: string) {
   return { contract, messageHash, messageHashBytes, v, r, s };
 }
 
-export async function getAddy() {
-  const userAddy = await getAddress();
+export function getAddy() {
+  const userAddy = getAddress();
   return { userAddy, contract };
 }

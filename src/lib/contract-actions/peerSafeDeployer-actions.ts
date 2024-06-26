@@ -1,6 +1,7 @@
-import { signMesssage, getAddy } from "~/lib/peer-safe";
+import { signMesssage, getAddy, getAddress } from "~/lib/peer-safe";
 import axios from "axios";
 import { type Address } from "viem";
+import { baseSepolia } from "viem/chains";
 
 const API_URL = "https://relayer.peersafe.tech/";
 // export type MyFile = {
@@ -36,7 +37,7 @@ export async function deleteFile(ipfsHash: string) {
 }
 
 export async function getVaultAddress() {
-  const { userAddy, contract } = await getAddy();
+  const { userAddy, contract } = getAddy();
   try {
     const vaultAddress: string = await contract.read.getVault([userAddy]);
     return vaultAddress;
@@ -48,17 +49,21 @@ export async function getVaultAddress() {
 export async function deployContract() {
   const { contract, messageHash, v, r, s } =
     await signMesssage("i deploy contract");
-  // const hash = contract.write.deploy([messageHash, r, s, v]);
-  const data = {
-    action: "deploy",
-    messageHash,
-    r,
-    s,
-    v,
-  };
-  await axios.post(API_URL, data, {
-    timeout: 24000,
+  const address = getAddress();
+  const hash = await contract.write.deploy([address, messageHash, v, r, s], {
+    account: address,
+    chain: baseSepolia,
   });
+  // const data = {
+  //   action: "deploy",
+  //   messageHash,
+  //   r,
+  //   s,
+  //   v,
+  // };
+  // await axios.post(API_URL, data, {
+  //   timeout: 24000,
+  // });
 }
 
 export async function deployFile(
