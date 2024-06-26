@@ -8,9 +8,17 @@
 // import { Separator } from "~/components/ui/separator";
 // import { useState, type FC } from "react";
 import { redirect } from "next/navigation";
-import { useAccount, useConnect } from "wagmi";
+import { useEffect } from "react";
+import {
+  useAccount,
+  useAccountEffect,
+  useConnect,
+  useReadContract,
+  useWriteContract,
+} from "wagmi";
 import { Button } from "~/components/ui/button";
 import { Spinner } from "~/components/ui/spinner";
+import { abi } from "~/lib/vaultDeployerAbi";
 // import { emailWagmiConfig, socialProviders } from "~/lib/wagmi";
 
 // function ProviderLoginButton({
@@ -49,8 +57,32 @@ import { Spinner } from "~/components/ui/spinner";
 // };
 
 export default function LoginPage() {
-  const { connect, connectors, isPending } = useConnect();
-  const { status, isConnecting } = useAccount();
+  const { connect, connectors, isPending } = useConnect({});
+  const { status, isConnecting, address } = useAccount();
+
+  const { data: vault, refetch } = useReadContract({
+    abi,
+    address: "0x82F900369CEa4FEED9006FA4ba82af705f616934",
+    functionName: "getVault",
+    args: [address ?? ""],
+  });
+
+  const { writeContract } = useWriteContract();
+
+  useAccountEffect({
+    onConnect: () => {
+      void refetch();
+
+      if (!vault) {
+        void writeContract({
+          abi,
+          address: "0x82F900369CEa4FEED9006FA4ba82af705f616934",
+          functionName: "deploy",
+          args: [address ?? "0x", address ?? ""],
+        });
+      }
+    },
+  });
 
   // const [email, setEmail] = useState("");
 
@@ -58,7 +90,9 @@ export default function LoginPage() {
   //   config: emailWagmiConfig(email),
   // });
 
-  if (status === "connected") redirect("/");
+  useEffect(() => {
+    if (status === "connected") redirect("/");
+  }, [status]);
 
   return (
     <main className="flex w-full grow flex-col items-center justify-center gap-6 px-10 py-24">

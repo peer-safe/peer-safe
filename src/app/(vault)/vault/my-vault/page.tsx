@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useAccount } from "wagmi";
 import Bars from "~/components/icons/bars";
 import ChevronDown from "~/components/icons/chevron-down";
 import Document from "~/components/icons/document";
@@ -18,7 +19,7 @@ const mockFolders = [
   {
     dirname: "Movies",
     numfiles: 10,
-    size: 30020909765,
+    size: 69696969696969696,
   },
   {
     dirname: "Pictures",
@@ -136,6 +137,7 @@ function FileListNode({
 
 export default function MyVaultPage() {
   const [isGridView, setIsGridView] = useState(true);
+
   return (
     <main className="flex flex-1 flex-col gap-2 px-4 pb-4">
       <div className="flex h-10 items-center justify-between">
