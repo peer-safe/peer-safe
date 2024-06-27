@@ -1,14 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { useAccount } from "wagmi";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import Bars from "~/components/icons/bars";
 import ChevronDown from "~/components/icons/chevron-down";
 import Document from "~/components/icons/document";
 import Folder from "~/components/icons/folder";
 import Squares from "~/components/icons/squares";
-import NodeContainerView from "~/components/vault/NodeContainerView";
+import GridContainerView from "~/components/vault/NodeContainerView";
 import { cn, formatBytes } from "~/lib/utils";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
 
 const mockFolders = [
   {
@@ -19,7 +32,7 @@ const mockFolders = [
   {
     dirname: "Movies",
     numfiles: 10,
-    size: 69696969696969696,
+    size: 30020909765,
   },
   {
     dirname: "Pictures",
@@ -97,6 +110,106 @@ function FileGridNode({
   );
 }
 
+type ListNode = {
+  data: {
+    name: string;
+    variant: "folder" | "file";
+  };
+  size: number;
+};
+
+const listCols: ColumnDef<ListNode>[] = [
+  {
+    accessorKey: "data",
+    header: "Name",
+    cell: ({ row }) => {
+      const data: ListNode["data"] = row.getValue("data");
+      const Icon = data.variant === "file" ? Document : Folder;
+      return (
+        <div className="flex items-center gap-4">
+          <Icon className="h-5 w-5 text-[#33836D]" />
+          <span className="text-base">{data.name}</span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "size",
+    header: "Size",
+    cell: ({ row }) => {
+      const val: number = row.getValue("size");
+      return (
+        <span className="flex gap-4 text-sm text-muted-foreground ">
+          {formatBytes(val)}
+        </span>
+      );
+    },
+  },
+];
+
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+}
+
+export function ListViewTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  return (
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
 function FolderListNode({
   dirname,
   numfiles,
@@ -107,11 +220,14 @@ function FolderListNode({
   size: number;
 }) {
   return (
-    <BaseNode className="relative flex items-center gap-4 rounded-xl bg-background from-[#26755D] to-[#26755D]/20 px-4 py-2 before:absolute before:-bottom-[2px] before:left-[1px] before:right-[1px] before:top-[1px] before:-z-10 before:rounded-xl before:bg-gradient-to-tr">
+    <BaseNode className="relative flex items-center gap-4 bg-background from-[#26755D] to-[#26755D]/20 px-4 py-2 before:absolute before:-bottom-[1px] before:left-[0px] before:right-[0px] before:top-[0px] before:-z-10 before:bg-gradient-to-tr">
       <Folder className="h-6 w-6 text-[#33836D]" />
       <h4 className="text-base">{dirname}</h4>
-      <span className="text-sm text-muted-foreground">
-        {numfiles} file{numfiles > 1 ? "s" : null}, {formatBytes(size)}
+      <span className="flex gap-4 text-sm text-muted-foreground ">
+        <div>
+          {numfiles} file{numfiles > 1 ? "s" : null}
+        </div>
+        <div>{formatBytes(size)}</div>
       </span>
     </BaseNode>
   );
@@ -127,7 +243,7 @@ function FileListNode({
   size: number;
 }) {
   return (
-    <BaseNode className="relative flex items-center gap-4 rounded-xl bg-background from-[#26755D] to-[#26755D]/20 px-4 py-2 before:absolute before:-bottom-[2px] before:left-[1px] before:right-[1px] before:top-[1px] before:-z-10 before:rounded-xl before:bg-gradient-to-tr">
+    <BaseNode className="relative flex items-center gap-4 bg-background from-[#26755D] to-[#26755D]/20 px-4 py-2 before:absolute before:-bottom-[1px] before:left-[0px] before:right-[0px] before:top-[0px] before:-z-10 before:bg-gradient-to-tr">
       <Document className="h-6 w-6 text-[#33836D]" />
       <h4 className="text-base">{filename}</h4>
       <span className="text-sm text-muted-foreground">{formatBytes(size)}</span>
@@ -162,26 +278,50 @@ export default function MyVaultPage() {
           />
         </div>
       </div>
-      <h3 className="text-lg text-muted-foreground">Folders</h3>
-      <NodeContainerView isGridView={isGridView}>
-        {mockFolders.map((folder, ind) =>
-          isGridView ? (
-            <FolderGridNode {...folder} key={ind} />
-          ) : (
-            <FolderListNode {...folder} key={ind} />
-          ),
-        )}
-      </NodeContainerView>
-      <h3 className="text-lg text-muted-foreground">Files</h3>
-      <NodeContainerView isGridView={isGridView}>
-        {mockFiles.map((file, ind) =>
-          isGridView ? (
-            <FileGridNode {...file} key={ind} />
-          ) : (
-            <FileListNode {...file} key={ind} />
-          ),
-        )}
-      </NodeContainerView>
+      {isGridView ? (
+        <>
+          <h3 className="text-lg text-muted-foreground">Folders</h3>
+          <GridContainerView>
+            {mockFolders.map((folder, ind) =>
+              isGridView ? (
+                <FolderGridNode {...folder} key={ind} />
+              ) : (
+                <FolderListNode {...folder} key={ind} />
+              ),
+            )}
+          </GridContainerView>
+          <h3 className="text-lg text-muted-foreground">Files</h3>
+          <GridContainerView>
+            {mockFiles.map((file, ind) =>
+              isGridView ? (
+                <FileGridNode {...file} key={ind} />
+              ) : (
+                <FileListNode {...file} key={ind} />
+              ),
+            )}
+          </GridContainerView>
+        </>
+      ) : (
+        <ListViewTable
+          columns={listCols}
+          data={[
+            ...mockFolders.map((folder) => ({
+              data: {
+                variant: "folder" as "folder",
+                name: folder.dirname,
+              },
+              size: folder.size,
+            })),
+            ...mockFiles.map((file) => ({
+              data: {
+                variant: "file" as "file",
+                name: file.filename,
+              },
+              size: file.size,
+            })),
+          ]}
+        />
+      )}
     </main>
   );
 }
