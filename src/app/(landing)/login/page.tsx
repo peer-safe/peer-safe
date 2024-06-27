@@ -22,6 +22,7 @@ import { abi } from "~/lib/peerSafeDeployerAbi";
 import { privateKeyToPublicKey, newKeyWithShares } from "@peer-safe/tessera-js";
 import { formToJSON } from "axios";
 import { generatePrivateKey } from "viem/accounts";
+import { deployContract } from "~/lib/contract-actions/peerSafeDeployer-actions";
 
 // import { emailWagmiConfig, socialProviders } from "~/lib/wagmi";
 
@@ -81,14 +82,15 @@ export default function LoginPage() {
         // const privateKey = await newKeyWithShares(address ?? "", "", "", "");
         const privateKey = generatePrivateKey();
         const pubKey = privateKeyToPublicKey(privateKey);
-        console.log(pubKey);
-        // const pubKeyBytes = hexToBytes(pubKey);
         void writeContract({
           abi,
           address: "0x82F900369CEa4FEED9006FA4ba82af705f616934",
           functionName: "deploy",
           args: [address ?? "0x0000000000000000000000000000000000000000", pubKey],
         });
+
+        // if we're not doing hackathon fully just wanna submit something, lets use the relayer
+        // void deployContract(pubKey);
       }
     },
   });
