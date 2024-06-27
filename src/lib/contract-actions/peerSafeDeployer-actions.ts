@@ -1,6 +1,6 @@
 import { signMesssage, getAddy } from "~/lib/peer-safe";
 import axios from "axios";
-import { Address } from "viem";
+import { type Address } from "viem";
 
 const API_URL = "https://relayer.peersafe.tech/";
 // export type MyFile = {
@@ -45,8 +45,8 @@ export async function getVaultAddress() {
   }
 }
 
-export async function deployContract() {
-  const { contract, messageHash, v, r, s } =
+export async function deployContract(pubKey: `0x${string}`) {
+  const { messageHash, v, r, s } =
     await signMesssage("i deploy contract");
   // const hash = contract.write.deploy([messageHash, r, s, v]);
   const data = {
@@ -55,6 +55,7 @@ export async function deployContract() {
     r,
     s,
     v,
+    pubKey,
   };
   await axios.post(API_URL, data, {
     timeout: 24000,
