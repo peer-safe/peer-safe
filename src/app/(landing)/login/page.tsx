@@ -18,7 +18,11 @@ import {
 } from "wagmi";
 import { Button } from "~/components/ui/button";
 import { Spinner } from "~/components/ui/spinner";
-import { abi } from "~/lib/vaultDeployerAbi";
+import { abi } from "~/lib/peerSafeDeployerAbi";
+import { privateKeyToPublicKey, newKeyWithShares } from "@peer-safe/tessera-js";
+import { formToJSON } from "axios";
+import { generatePrivateKey } from "viem/accounts";
+
 // import { emailWagmiConfig, socialProviders } from "~/lib/wagmi";
 
 // function ProviderLoginButton({
@@ -64,7 +68,7 @@ export default function LoginPage() {
     abi,
     address: "0x82F900369CEa4FEED9006FA4ba82af705f616934",
     functionName: "getVault",
-    args: [address ?? ""],
+    args: [address ?? "0x0000000000000000000000000000000000000000"],
   });
 
   const { writeContract } = useWriteContract();
@@ -74,11 +78,16 @@ export default function LoginPage() {
       void refetch();
 
       if (!vault) {
+        // const privateKey = await newKeyWithShares(address ?? "", "", "", "");
+        const privateKey = generatePrivateKey();
+        const pubKey = privateKeyToPublicKey(privateKey);
+        console.log(pubKey);
+        // const pubKeyBytes = hexToBytes(pubKey);
         void writeContract({
           abi,
           address: "0x82F900369CEa4FEED9006FA4ba82af705f616934",
           functionName: "deploy",
-          args: [address ?? "0x", address ?? ""],
+          args: [address ?? "0x0000000000000000000000000000000000000000", pubKey],
         });
       }
     },
