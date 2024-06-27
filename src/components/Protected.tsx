@@ -1,12 +1,15 @@
 "use client";
 
 import { redirect } from "next/navigation";
+import { useEffect } from "react";
 import { useAccount } from "wagmi";
 
 export default function Protected({ children }: { children: React.ReactNode }) {
   const { address } = useAccount();
 
-  if (!address) return redirect("/");
+  useEffect(() => {
+    if (!address) redirect("/");
+  });
 
-  return children;
+  return address ? children : "loading";
 }
