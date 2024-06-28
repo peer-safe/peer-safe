@@ -1,25 +1,19 @@
-import { signMesssage, getAddy } from "~/lib/peer-safe";
+import { contract, useAddress, useCustomSignMessage } from "~/lib/peer-safe";
 import axios from "axios";
 import { type Address } from "viem";
 
 const API_URL = "https://relayer.peersafe.tech/";
-// export type MyFile = {
-//   _fileType: string;
-//   _ipfsHash: string;
-//   _key: string;
-//   _name: string;
-//   _sharedBy: `0x${string}`;
-// };
 
-export async function getAllFiles() {
-  const { contract, messageHash, v, r, s } =
-    await signMesssage("i want my files");
+export async function useAllFiles() {
+  const signer = useCustomSignMessage();
+  const { messageHash, v, r, s } = await signer.signMesage("i want my files");
   const files = await contract.read.getAllFiles([messageHash, v, r, s]);
   return files;
 }
 
-export async function deleteFile(ipfsHash: string) {
-  const { contract, messageHash, v, r, s } = await signMesssage("i delete");
+export async function useDeleteFile(ipfsHash: string) {
+  const signer = useCustomSignMessage();
+  const { messageHash, v, r, s } = await signer.signMesage("i delete");
   const body = {
     action: "deleteFile",
     messageHash,
@@ -35,8 +29,8 @@ export async function deleteFile(ipfsHash: string) {
   // const hash = contract.write.deleteFile([messageHash, v, r, s, ipfsHash]);
 }
 
-export async function getVaultAddress() {
-  const { userAddy, contract } = await getAddy();
+export async function useVaultAddress() {
+  const userAddy = useAddress();
   try {
     const vaultAddress: string = await contract.read.getVault([userAddy]);
     return vaultAddress;
@@ -45,9 +39,9 @@ export async function getVaultAddress() {
   }
 }
 
-export async function deployContract(pubKey: `0x${string}`) {
-  const { messageHash, v, r, s } =
-    await signMesssage("i deploy contract");
+export async function useDeployContract(pubKey: `0x${string}`) {
+  const signer = useCustomSignMessage();
+  const { messageHash, v, r, s } = await signer.signMesage("i deploy contract");
   // const hash = contract.write.deploy([messageHash, r, s, v]);
   const data = {
     action: "deploy",
@@ -62,13 +56,14 @@ export async function deployContract(pubKey: `0x${string}`) {
   });
 }
 
-export async function deployFile(
+export async function useDeployFile(
   name: string,
   fileType: string,
   fileHash: string,
   keyHash: string,
 ) {
-  const { messageHash, v, r, s } = await signMesssage("i deploy file");
+  const signer = useCustomSignMessage();
+  const { messageHash, v, r, s } = await signer.signMesage("i deploy file");
 
   const body = {
     action: "createFile",
@@ -94,8 +89,8 @@ export async function deployFile(
   return true;
 }
 
-export async function getPubKey(address: string) {
-  const { contract } = await signMesssage("gib pub key");
+export async function usePubKey(address: string) {
+  // const { contract } = await useCustomSignMessage("gib pub key");
   const pubKey = await contract.read.getPubKey([address as Address]);
   return pubKey;
 }
