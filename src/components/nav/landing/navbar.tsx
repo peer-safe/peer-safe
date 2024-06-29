@@ -5,6 +5,7 @@ import Image from "next/image";
 import ThemeToggle from "~/components/ui/theme-toggle";
 import MaxWidth from "~/components/ui/max-width";
 import Auth from "~/components/nav/landing/auth";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Navbar = () => {
   return (
@@ -25,7 +26,8 @@ const Navbar = () => {
         </Link>
         <div className="flex items-center gap-4 ">
           <ThemeToggle />
-          <Auth />
+          {/* <Auth /> */}
+          <ConnectButton />
         </div>
       </MaxWidth>
     </nav>

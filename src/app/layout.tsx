@@ -1,4 +1,5 @@
 import "~/styles/globals.css";
+import '@rainbow-me/rainbowkit/styles.css';
 
 import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
