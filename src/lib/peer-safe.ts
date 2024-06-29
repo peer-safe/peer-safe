@@ -1,13 +1,10 @@
 import {
   getContract,
-  createWalletClient,
-  custom,
   createPublicClient,
   http,
   keccak256,
   toHex,
   parseSignature,
-  hexToNumber,
 } from "viem";
 import { baseSepolia } from "viem/chains";
 import { abi } from "./peerSafeDeployerAbi";
@@ -19,10 +16,10 @@ const CONTRACT_ADDRESS = "0x82F900369CEa4FEED9006FA4ba82af705f616934";
 const RPC_URL =
   "https://api.developer.coinbase.com/rpc/v1/base-sepolia/NfZpgyPZbiQsPtBSEdZKa8rjBfxGtqyu";
 
-export const walletClient = createWalletClient({
-  chain: baseSepolia,
-  transport: custom(window.ethereum),
-});
+// export const walletClient = createWalletClient({
+//   chain: baseSepolia,
+//   transport: custom(window.ethereum),
+// });
 
 export const publicClient = createPublicClient({
   chain: baseSepolia,
@@ -32,7 +29,7 @@ export const publicClient = createPublicClient({
 export const contract = getContract({
   address: CONTRACT_ADDRESS,
   abi,
-  client: { public: publicClient, wallet: walletClient },
+  client: { public: publicClient },
 });
 
 export function useAddress() {
@@ -42,15 +39,17 @@ export function useAddress() {
 }
 
 export function useCustomSignMessage() {
-  const { signMessageAsync: signMessage } = useSignMessage();
+  const { signMessage, data } = useSignMessage();
   const signer = {
-    signMesage: async (message: string) => {
+    signMesage: (message: string) => {
       const messageHash = keccak256(toHex(message));
-      const data = await signMessage({ message: message });
-      const { r, s } = parseSignature(data);
-      const v = hexToNumber(`0x${data.slice(130)}`);
+      signMessage({ message: message });
+      if (!(data === undefined)) {
+        const { v, r, s } = parseSignature(data);
 
-      return { messageHash, v, r, s };
+        return { messageHash, v: v as unknown as number, r, s };
+      }
+      return {};
     },
   };
 

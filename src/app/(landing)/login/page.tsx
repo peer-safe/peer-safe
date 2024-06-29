@@ -19,10 +19,9 @@ import {
 import { Button } from "~/components/ui/button";
 import { Spinner } from "~/components/ui/spinner";
 import { abi } from "~/lib/peerSafeDeployerAbi";
-import { privateKeyToPublicKey, newKeyWithShares } from "@peer-safe/tessera-js";
-import { formToJSON } from "axios";
+import { privateKeyToPublicKey } from "@peer-safe/tessera-js";
 import { generatePrivateKey } from "viem/accounts";
-import { deployContract } from "~/lib/contract-actions/peerSafeDeployer-actions";
+import { coinbaseWallet } from "wagmi/connectors";
 
 // import { emailWagmiConfig, socialProviders } from "~/lib/wagmi";
 
@@ -62,7 +61,7 @@ import { deployContract } from "~/lib/contract-actions/peerSafeDeployer-actions"
 // };
 
 export default function LoginPage() {
-  const { connect, connectors, isPending } = useConnect({});
+  const { connect, isPending } = useConnect({});
   const { status, isConnecting, address } = useAccount();
 
   const { data: vault, refetch } = useReadContract({
@@ -86,7 +85,10 @@ export default function LoginPage() {
           abi,
           address: "0x82F900369CEa4FEED9006FA4ba82af705f616934",
           functionName: "deploy",
-          args: [address ?? "0x0000000000000000000000000000000000000000", pubKey],
+          args: [
+            address ?? "0x0000000000000000000000000000000000000000",
+            pubKey,
+          ],
         });
 
         // if we're not doing hackathon fully just wanna submit something, lets use the relayer
@@ -102,7 +104,7 @@ export default function LoginPage() {
   // });
 
   useEffect(() => {
-    if (status === "connected") redirect("/");
+    if (status === "connected") redirect("/vault");
   }, [status]);
 
   return (
@@ -129,7 +131,7 @@ export default function LoginPage() {
       <Button
         className="w-full max-w-96"
         onClick={() => {
-          connect({ connector: connectors[connectors.length - 1]! });
+          connect({ connector: coinbaseWallet() });
         }}
         disabled={isConnecting || isPending}
       >
