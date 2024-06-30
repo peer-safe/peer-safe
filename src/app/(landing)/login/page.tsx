@@ -9,19 +9,16 @@
 // import { useState, type FC } from "react";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
-import {
-  useAccount,
-  useAccountEffect,
-  useConnect,
-  useReadContract,
-  useWriteContract,
-} from "wagmi";
+import { useAccount, useAccountEffect, useConnect } from "wagmi";
 import { Button } from "~/components/ui/button";
 import { Spinner } from "~/components/ui/spinner";
 import { abi } from "~/lib/peerSafeDeployerAbi";
 import { privateKeyToPublicKey } from "@peer-safe/tessera-js";
 import { generatePrivateKey } from "viem/accounts";
 import { coinbaseWallet } from "wagmi/connectors";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { contract } from "~/lib/peer-safe";
+import { usePeersafe } from "~/hooks/peersafe-provider";
 
 // import { emailWagmiConfig, socialProviders } from "~/lib/wagmi";
 
@@ -62,38 +59,16 @@ import { coinbaseWallet } from "wagmi/connectors";
 
 export default function LoginPage() {
   const { connect, isPending } = useConnect({});
-  const { status, isConnecting, address } = useAccount();
-
-  const { data: vault, refetch } = useReadContract({
-    abi,
-    address: "0x82F900369CEa4FEED9006FA4ba82af705f616934",
-    functionName: "getVault",
-    args: [address ?? "0x0000000000000000000000000000000000000000"],
-  });
-
-  const { writeContract } = useWriteContract();
+  const { status, isConnecting } = useAccount();
+  const { example } = usePeersafe();
 
   useAccountEffect({
-    onConnect: () => {
-      void refetch();
-
-      if (!vault) {
-        // const privateKey = await newKeyWithShares(address ?? "", "", "", "");
-        const privateKey = generatePrivateKey();
-        const pubKey = privateKeyToPublicKey(privateKey);
-        void writeContract({
-          abi,
-          address: "0x82F900369CEa4FEED9006FA4ba82af705f616934",
-          functionName: "deploy",
-          args: [
-            address ?? "0x0000000000000000000000000000000000000000",
-            pubKey,
-          ],
-        });
-
-        // if we're not doing hackathon fully just wanna submit something, lets use the relayer
-        // void deployContract(pubKey);
-      }
+    onConnect: async (data) => {
+      console.log(example());
+      // deploy vault
+      const vault = await contract.read
+        .getVault([data.address])
+        .catch(() => undefined); // does not exist
     },
   });
 
@@ -128,7 +103,7 @@ export default function LoginPage() {
         or
         <Separator />
       </div> */}
-      <Button
+      {/* <Button
         className="w-full max-w-96"
         onClick={() => {
           connect({ connector: coinbaseWallet() });
@@ -140,7 +115,8 @@ export default function LoginPage() {
         ) : (
           <>Continue with Coinbase &rarr;</>
         )}
-      </Button>
+      </Button> */}
+      <ConnectButton />
       {/* <div className="flex w-96 items-center gap-2 text-muted-foreground">
         <Separator />
         or
