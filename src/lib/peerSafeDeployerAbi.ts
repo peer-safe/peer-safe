@@ -169,24 +169,9 @@ export const abi = [
         type: "string",
       },
       {
-        internalType: "bytes32",
-        name: "_hashedMessage",
-        type: "bytes32",
-      },
-      {
-        internalType: "uint8",
-        name: "_v",
-        type: "uint8",
-      },
-      {
-        internalType: "bytes32",
-        name: "_r",
-        type: "bytes32",
-      },
-      {
-        internalType: "bytes32",
-        name: "_s",
-        type: "bytes32",
+        internalType: "bytes",
+        name: "pubKey",
+        type: "bytes",
       },
     ],
     name: "deploy",
@@ -416,6 +401,50 @@ export const abi = [
     ],
     name: "rejectShareRequest",
     outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_userName",
+        type: "string",
+      },
+      {
+        internalType: "bytes32",
+        name: "_hashedMessage",
+        type: "bytes32",
+      },
+      {
+        internalType: "uint8",
+        name: "_v",
+        type: "uint8",
+      },
+      {
+        internalType: "bytes32",
+        name: "_r",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes32",
+        name: "_s",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes",
+        name: "pubKey",
+        type: "bytes",
+      },
+    ],
+    name: "relayDeploy",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "function",
   },
