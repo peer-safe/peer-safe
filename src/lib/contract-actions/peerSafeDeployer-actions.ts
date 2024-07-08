@@ -6,14 +6,14 @@ const API_URL = "https://relayer.peersafe.tech/";
 
 export async function useAllFiles() {
   const signer = useCustomSignMessage();
-  const { messageHash, v, r, s } = signer.signMesage("i want my files");
+  const { messageHash, v, r, s } = await signer.signMesage("i want my files");
   const files = await contract.read.getAllFiles([messageHash!, v!, r!, s!]);
   return files;
 }
 
 export async function useDeleteFile(ipfsHash: string) {
   const signer = useCustomSignMessage();
-  const { messageHash, v, r, s } = signer.signMesage("i delete");
+  const { messageHash, v, r, s } = await signer.signMesage("i delete");
   const body = {
     action: "deleteFile",
     messageHash,
@@ -42,7 +42,8 @@ export async function useVaultAddress() {
 export function useDeployContract() {
   const signer = useCustomSignMessage();
   return async function deployContract(pubKey: `0x${string}`) {
-    const { messageHash, v, r, s } = signer.signMesage("i deploy contract");
+    const { messageHash, v, r, s } =
+      await signer.signMesage("i deploy contract");
     // const hash = contract.write.deploy([messageHash, r, s, v]);
     const data = {
       action: "deploy",
@@ -66,7 +67,7 @@ export async function useDeployFile(
   keyHash: string,
 ) {
   const signer = useCustomSignMessage();
-  const { messageHash, v, r, s } = signer.signMesage("i deploy file");
+  const { messageHash, v, r, s } = await signer.signMesage("i deploy file");
 
   const body = {
     action: "createFile",
