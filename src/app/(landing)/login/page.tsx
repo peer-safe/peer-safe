@@ -19,6 +19,7 @@ import { coinbaseWallet } from "wagmi/connectors";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { contract } from "~/lib/peer-safe";
 import { usePeersafe } from "~/hooks/peersafe-provider";
+import { useDeployContract } from "~/lib/contract-actions/peerSafeDeployer-actions";
 
 // import { emailWagmiConfig, socialProviders } from "~/lib/wagmi";
 
@@ -61,14 +62,17 @@ export default function LoginPage() {
   const { connect, isPending } = useConnect({});
   const { status, isConnecting } = useAccount();
   const { example } = usePeersafe();
+  const deployContract = useDeployContract();
 
   useAccountEffect({
     onConnect: async (data) => {
-      console.log(example());
-      // deploy vault
       const vault = await contract.read
         .getVault([data.address])
         .catch(() => undefined); // does not exist
+      if (vault) return;
+      const pubKey = await contract.read.getPubKey([data.address]);
+      console.log("deploying...");
+      await deployContract(pubKey);
     },
   });
 

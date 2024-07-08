@@ -39,21 +39,24 @@ export async function useVaultAddress() {
   }
 }
 
-export async function useDeployContract(pubKey: `0x${string}`) {
+export function useDeployContract() {
   const signer = useCustomSignMessage();
-  const { messageHash, v, r, s } = signer.signMesage("i deploy contract");
-  // const hash = contract.write.deploy([messageHash, r, s, v]);
-  const data = {
-    action: "deploy",
-    messageHash,
-    r,
-    s,
-    v,
-    pubKey,
+  return async function deployContract(pubKey: `0x${string}`) {
+    const { messageHash, v, r, s } = signer.signMesage("i deploy contract");
+    // const hash = contract.write.deploy([messageHash, r, s, v]);
+    const data = {
+      action: "deploy",
+      messageHash,
+      r,
+      s,
+      v,
+      pubKey,
+    };
+    console.log(data);
+    return await axios.post(API_URL, data, {
+      timeout: 24000,
+    });
   };
-  await axios.post(API_URL, data, {
-    timeout: 24000,
-  });
 }
 
 export async function useDeployFile(
