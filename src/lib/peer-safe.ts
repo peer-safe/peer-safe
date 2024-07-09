@@ -39,21 +39,17 @@ export function useAddress() {
 }
 
 export function useCustomSignMessage() {
-  const { signMessageAsync, data } = useSignMessage();
-  const signer = {
-    signMesage: async (message: string) => {
-      const messageHash = keccak256(toHex(message));
-      await signMessageAsync({ message: message });
-      if (!(data === undefined)) {
-        const { v, r, s } = parseSignature(data);
+  const { signMessageAsync } = useSignMessage();
+  return async function signMesage(message: string) {
+    const messageHash = keccak256(toHex(message));
+    const data = await signMessageAsync({ message: message });
+    if (!(data === undefined)) {
+      const { v, r, s } = parseSignature(data);
 
-        return { messageHash, v: v as unknown as number, r, s };
-      }
-      return {};
-    },
+      return { messageHash, v: v as unknown as number, r, s };
+    }
+    return {};
   };
-
-  return signer;
 }
 
 // export async function signMesssage(message: string) {

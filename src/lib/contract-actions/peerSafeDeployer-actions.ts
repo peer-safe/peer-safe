@@ -5,15 +5,15 @@ import { type Address } from "viem";
 const API_URL = "https://relayer.peersafe.tech/";
 
 export async function useAllFiles() {
-  const signer = useCustomSignMessage();
-  const { messageHash, v, r, s } = await signer.signMesage("i want my files");
+  const signMesage = useCustomSignMessage();
+  const { messageHash, v, r, s } = await signMesage("i want my files");
   const files = await contract.read.getAllFiles([messageHash!, v!, r!, s!]);
   return files;
 }
 
 export async function useDeleteFile(ipfsHash: string) {
-  const signer = useCustomSignMessage();
-  const { messageHash, v, r, s } = await signer.signMesage("i delete");
+  const signMesage = useCustomSignMessage();
+  const { messageHash, v, r, s } = await signMesage("i delete");
   const body = {
     action: "deleteFile",
     messageHash,
@@ -29,34 +29,36 @@ export async function useDeleteFile(ipfsHash: string) {
   // const hash = contract.write.deleteFile([messageHash, v, r, s, ipfsHash]);
 }
 
-export async function useVaultAddress() {
+export function useVaultAddress() {
   const userAddy = useAddress();
-  try {
-    const vaultAddress: string = await contract.read.getVault([userAddy]);
-    return vaultAddress;
-  } catch (_error) {
-    console.log("vault not deployed yet");
-  }
+  return async function getVaultAddress() {
+    try {
+      const vaultAddress: string = await contract.read.getVault([userAddy]);
+      return vaultAddress;
+    } catch (_error) {
+      console.log("vault not deployed yet");
+    }
+  };
 }
 
 export function useDeployContract() {
-  const signer = useCustomSignMessage();
+  const signMesage = useCustomSignMessage();
   return async function deployContract(pubKey: `0x${string}`) {
-    const { messageHash, v, r, s } =
-      await signer.signMesage("i deploy contract");
-    // const hash = contract.write.deploy([messageHash, r, s, v]);
-    const data = {
-      action: "deploy",
-      messageHash,
-      r,
-      s,
-      v,
-      pubKey,
-    };
-    console.log(data);
-    return await axios.post(API_URL, data, {
-      timeout: 24000,
+    signMesage("i deploy contract").then(async ({ messageHash, v, r, s }) => {
+      const data = {
+        action: "deploy",
+        messageHash,
+        r,
+        s,
+        v: Number(v),
+        pubKey,
+      };
+      console.log(data);
+      return await axios.post(API_URL, data, {
+        timeout: 24000,
+      });
     });
+    // const hash = contract.write.deploy([messageHash, r, s, v]);
   };
 }
 
@@ -66,8 +68,8 @@ export async function useDeployFile(
   fileHash: string,
   keyHash: string,
 ) {
-  const signer = useCustomSignMessage();
-  const { messageHash, v, r, s } = await signer.signMesage("i deploy file");
+  const signMesage = useCustomSignMessage();
+  const { messageHash, v, r, s } = await signMesage("i deploy file");
 
   const body = {
     action: "createFile",
